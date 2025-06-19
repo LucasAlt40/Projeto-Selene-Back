@@ -22,7 +22,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "8080:80"
+      - "5050:80"
     depends_on:
       - postgres
 
@@ -36,7 +36,7 @@ services:
       MINIO_ROOT_USER: admin2025
       MINIO_ROOT_PASSWORD: admin2025pass
     volumes:
-      - /home/eduardo_pc/arquivos/minio:/data
+      - ./minio-data:/data
       - ./minio-init:/minio-init
     command: server /data --console-address ":9001"
     restart: unless-stopped
