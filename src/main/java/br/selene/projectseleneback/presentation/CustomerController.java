@@ -1,7 +1,6 @@
 package br.selene.projectseleneback.presentation;
 
-import java.util.ArrayList;
-
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +19,8 @@ public class CustomerController {
 	}
 	
 	@GetMapping(MappingEndpoint.Customer.FIND_ALL)
-	public ArrayList<Customer> findAll(){
-		return customerService.findAll();
+	public Page<Customer> findAll(){
+		return customerService.findAll(null);
 	}
 	
 }
