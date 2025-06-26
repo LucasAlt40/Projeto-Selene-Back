@@ -12,6 +12,16 @@ public class Customer {
 	private String password;
 	private LocalDateTime createdAt;
 	
+	public Customer() {}
+	
+	public Customer(int id, String document, String name, String email, String phone) {
+		this.id = id;
+		this.document = document;
+		this.name = name;
+		this.email = email;
+		this.phone = phone;
+	}
+	
 	public int getId() {
 		return id;
 	}

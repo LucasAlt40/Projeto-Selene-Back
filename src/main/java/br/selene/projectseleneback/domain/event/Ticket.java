@@ -11,7 +11,6 @@ public class Ticket {
 	private Event event;
 	private TicketCategory ticketCategory;
 	private Customer customer;
-	private Instant expirationTime;
 	private TicketStatusEnum status;
 	private LocalDateTime createdAt;
 	
@@ -22,7 +21,6 @@ public class Ticket {
 		this.event = event;
 		this.ticketCategory = ticketCategory;
 		this.customer = customer;
-		this.expirationTime = expirationTime;
 		this.status = status;
 		this.createdAt = createdAt;
 	}
@@ -41,10 +39,6 @@ public class Ticket {
 	
 	public Customer getCustomer() {
 		return customer;
-	}
-	
-	public Instant getExpirationTime() {
-		return expirationTime;
 	}
 	
 	public TicketStatusEnum getStatus() {
