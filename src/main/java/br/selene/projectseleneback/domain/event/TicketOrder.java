@@ -2,55 +2,39 @@ package br.selene.projectseleneback.domain.event;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class TicketOrder {
 
 	private int id;
-	private TicketCategory ticketCategory;
-	private int quantity;
+	private List<TicketCategory> items;
 	private Instant expirationTime;
-	private Double price;
 	private TicketOrderStatusEnum status;
+	private Double priceTotal;
 	private LocalDateTime createdAt;
-	
-	public TicketOrder(int id, TicketCategory ticketCategory, int quantity, Instant expirationTime, Double price,
-			TicketOrderStatusEnum status, LocalDateTime createdAt) {
-		super();
-		this.id = id;
-		this.ticketCategory = ticketCategory;
-		this.quantity = quantity;
-		this.expirationTime = expirationTime;
-		this.price = price;
-		this.status = status;
-		this.createdAt = createdAt;
-	}
 
 	public int getId() {
 		return id;
 	}
 
-	public TicketCategory getTicketCategory() {
-		return ticketCategory;
-	}
-
-	public int getQuantity() {
-		return quantity;
+	public List<TicketCategory> getItems() {
+		return items;
 	}
 
 	public Instant getExpirationTime() {
 		return expirationTime;
 	}
 
-	public Double getPrice() {
-		return price;
-	}
-
 	public TicketOrderStatusEnum getStatus() {
 		return status;
+	}
+
+	public Double getPriceTotal() {
+		return priceTotal;
 	}
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
-	
+
 }
