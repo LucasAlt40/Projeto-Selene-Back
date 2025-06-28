@@ -3,7 +3,7 @@ version: "3.8"
 services:
   postgres:
     image: postgres:16
-    container_name: postgres
+    container_name: selene_postgres
     restart: always
     environment:
       POSTGRES_USER: admin
@@ -16,28 +16,28 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin
+    container_name: selene_pgadmin
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     ports:
-      - "8080:80"
+      - "5050:80"
     depends_on:
       - postgres
 
   minio:
     image: quay.io/minio/minio:latest
-    container_name: minio
+    container_name: selene_minio
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "9000:9000"   # API
+      - "9001:9001"   # Console web
     environment:
       MINIO_ROOT_USER: admin2025
       MINIO_ROOT_PASSWORD: admin2025pass
     volumes:
-      - /home/eduardo_pc/arquivos/minio:/data
-      - ./minio-init:/minio-init
+      - ./volumes/minio-data:/data
+      - ./minio/init:/minio-init
     command: server /data --console-address ":9001"
     restart: unless-stopped
     healthcheck:
