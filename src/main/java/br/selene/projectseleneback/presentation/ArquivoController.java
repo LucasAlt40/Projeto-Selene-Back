@@ -1,4 +1,4 @@
-package br.selene.projectseleneback.controller;
+package br.selene.projectseleneback.presentation;
 
 import br.selene.projectseleneback.infra.objectStorage.IStorageService;
 import org.springframework.http.HttpHeaders;

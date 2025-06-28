@@ -1,4 +1,4 @@
-package br.selene.projectseleneback.controller;
+package br.selene.projectseleneback.presentation;
 
 import br.selene.projectseleneback.model.dto.LinkDTO;
 import br.selene.projectseleneback.model.dto.RequestCheckoutDTO;
