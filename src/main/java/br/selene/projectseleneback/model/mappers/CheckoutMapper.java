@@ -30,7 +30,9 @@ public class CheckoutMapper {
                         .toList()
                 ,
                 List.of(new PaymentMethodsDTO(dto.paymentMethod())),
-                "http://localhost:4200/payment"
+                "http://localhost:4200/payment",
+                List.of("http://localhost:8080/checkout/notification_urls"),
+                List.of("http://localhost:8080/checkout/payment_notification_urls")
         );
     }
 }
