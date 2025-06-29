@@ -6,7 +6,6 @@ import br.selene.projectseleneback.domain.customer.Customer;
 
 public class Order {
     private int id;
-    private String checkout_id;
     private Customer customer;
     private int totalPrice;
     private OrderStatusEnum status;
@@ -14,9 +13,8 @@ public class Order {
 
     public Order() {}
 
-    public Order(int id, String checkout_id, Customer customer, int totalPrice, OrderStatusEnum status, LocalDateTime createdAt) {
+    public Order(int id, Customer customer, int totalPrice, OrderStatusEnum status, LocalDateTime createdAt) {
         this.id = id;
-        this.checkout_id = checkout_id;
         this.customer = customer;
         this.totalPrice = totalPrice;
         this.status = status;
@@ -31,13 +29,6 @@ public class Order {
         this.id = id;
     }
 
-    public String getCheckout_id() {
-        return checkout_id;
-    }
-
-    public void setCheckout_id(String checkout_id) {
-        this.checkout_id = checkout_id;
-    }
 
     public Customer getCustomer() {
         return customer;
