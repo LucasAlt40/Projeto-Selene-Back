@@ -13,4 +13,6 @@ public interface ICustomerRepository {
 	
 	public Customer findByEmail(String customerEmail);
 	
+	public Customer save(Customer customer);
+	
 }
