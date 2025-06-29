@@ -1,0 +1,27 @@
+{
+  "expiration_date": "2025-06-19T01:30:13.640054166",
+  "customer": {
+    "name": "José Aldo",
+    "email": "ufcampeao@teste.com.br",
+    "document": "049.840.408-07",
+    "phone": {
+      "country": "+55",
+      "area": "82",
+      "number": "982012838"
+    }
+  },
+  "items": [
+    {
+      "name": "DISCO CARTOLA",
+      "quantity": 1,
+      "unit_amount": 129.52,
+      "imageUrl": null
+    }
+  ],
+  "payment_methods": [
+    {
+      "type": "PIX"
+    }
+  ],
+  "redirect_uri": "http://localhost:4200/payment"
+}
