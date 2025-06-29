@@ -1,4 +1,4 @@
-package br.selene.projectseleneback.application;
+package br.selene.projectseleneback.infra.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

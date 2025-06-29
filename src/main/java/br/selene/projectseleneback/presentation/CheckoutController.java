@@ -1,12 +1,9 @@
 package br.selene.projectseleneback.presentation;
 
-import br.selene.projectseleneback.model.dto.LinkDTO;
-import br.selene.projectseleneback.model.dto.RequestCheckoutDTO;
-import br.selene.projectseleneback.model.dto.RequestGatewayDTO;
-import br.selene.projectseleneback.model.dto.ResponseGatewayDTO;
-import br.selene.projectseleneback.model.mappers.CheckoutMapper;
-import br.selene.projectseleneback.service.CheckoutService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import br.selene.projectseleneback.infra.services.CheckoutService;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController

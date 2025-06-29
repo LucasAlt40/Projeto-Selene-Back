@@ -1,7 +1,5 @@
-package br.selene.projectseleneback.service;
+package br.selene.projectseleneback.infra.services;
 
-import br.selene.projectseleneback.model.dto.RequestGatewayDTO;
-import br.selene.projectseleneback.model.dto.ResponseGatewayDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
