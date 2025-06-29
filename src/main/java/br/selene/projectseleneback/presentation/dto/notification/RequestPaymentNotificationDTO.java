@@ -1,6 +1,10 @@
 package br.selene.projectseleneback.presentation.dto.notification;
 
+import java.util.List;
+
 public record RequestPaymentNotificationDTO(
-    int referenceId
+        String id,
+        String referenceId,
+        List<ChargesPaymentDTO> charges
 ) {
 }

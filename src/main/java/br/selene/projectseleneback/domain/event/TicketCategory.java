@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class TicketCategory {
 
 	private int id;
-	private Double price;
+	private int price;
 	private String description;
 	private int quantity;
 	private LocalDateTime createdAt;
@@ -18,11 +18,11 @@ public class TicketCategory {
 		this.id = id;
 	}
 
-	public Double getPrice() {
+	public int getPrice() {
 		return price;
 	}
 
-	public void setPrice(Double price) {
+	public void setPrice(int price) {
 		this.price = price;
 	}
 
