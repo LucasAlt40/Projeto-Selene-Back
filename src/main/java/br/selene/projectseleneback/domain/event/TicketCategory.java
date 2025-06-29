@@ -8,6 +8,7 @@ public class TicketCategory {
 	private int price;
 	private String description;
 	private int quantity;
+	private int quantityAvaliable;
 	private LocalDateTime createdAt;
 
 	public int getId() {
@@ -50,4 +51,11 @@ public class TicketCategory {
 		this.createdAt = createdAt;
 	}
 
+	public int getQuantityAvaliable() {
+		return quantityAvaliable;
+	}
+
+	public void setQuantityAvaliable(int quantityAvaliable) {
+		this.quantityAvaliable = quantityAvaliable;
+	}
 }
