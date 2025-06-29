@@ -18,26 +18,26 @@ public class CheckoutController {
     }
 
 
-    @PostMapping("/new")
-    public LinkDTO createCheckout(@RequestBody RequestCheckoutDTO request) throws InterruptedException, JsonProcessingException {
-
-        RequestGatewayDTO requestCheckoutDTO = CheckoutMapper.toRequestGateway(request);
-
-        ResponseGatewayDTO responseGatewayDTO =
-                checkoutService
-                        .criarCheckout(requestCheckoutDTO)
-                        .block();
-
-        return  responseGatewayDTO.links().get(1);
-    }
-
-    @PostMapping("/payment_notification_urls")
-    public void newLog(@RequestBody Object object){
-    }
-    @PostMapping("/notification_urls")
-    public void newLog2(@RequestBody Object object){
-
-    }
+//    @PostMapping("/new")
+//    public LinkDTO createCheckout(@RequestBody RequestCheckoutDTO request) throws InterruptedException, JsonProcessingException {
+//
+//        RequestGatewayDTO requestCheckoutDTO = CheckoutMapper.toRequestGateway(request);
+//
+//        ResponseGatewayDTO responseGatewayDTO =
+//                checkoutService
+//                        .criarCheckout(requestCheckoutDTO)
+//                        .block();
+//
+//        return  responseGatewayDTO.links().get(1);
+//    }
+//
+//    @PostMapping("/payment_notification_urls")
+//    public void newLog(@RequestBody Object object){
+//    }
+//    @PostMapping("/notification_urls")
+//    public void newLog2(@RequestBody Object object){
+//
+//    }
 
 
 

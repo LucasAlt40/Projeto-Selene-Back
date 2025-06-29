@@ -20,15 +20,15 @@ public class CheckoutService {
         this.objectMapper = objectMapper;
     }
 
-    public Mono<ResponseGatewayDTO> criarCheckout(RequestGatewayDTO request) throws JsonProcessingException {
-
-        String jsonBody = objectMapper.writeValueAsString(request);
-        System.out.println("Body que será enviado: " + jsonBody);
-
-        return webClient.post()
-                .uri("/checkouts")
-                .bodyValue(request)
-                .retrieve()
-                .bodyToMono(ResponseGatewayDTO.class);
-    }
+//    public Mono<ResponseGatewayDTO> criarCheckout(RequestGatewayDTO request) throws JsonProcessingException {
+//
+//        String jsonBody = objectMapper.writeValueAsString(request);
+//        System.out.println("Body que será enviado: " + jsonBody);
+//
+//        return webClient.post()
+//                .uri("/checkouts")
+//                .bodyValue(request)
+//                .retrieve()
+//                .bodyToMono(ResponseGatewayDTO.class);
+//    }
 }
