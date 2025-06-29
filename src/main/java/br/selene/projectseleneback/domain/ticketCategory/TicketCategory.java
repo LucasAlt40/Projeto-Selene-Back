@@ -1,4 +1,4 @@
-package br.selene.projectseleneback.domain.event;
+package br.selene.projectseleneback.domain.ticketCategory;
 
 import java.time.LocalDateTime;
 

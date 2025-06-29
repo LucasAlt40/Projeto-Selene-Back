@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 
 import br.selene.projectseleneback.domain.customer.Customer;
+import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
 
 public final class Ticket {
 

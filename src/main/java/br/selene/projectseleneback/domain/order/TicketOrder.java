@@ -1,7 +1,7 @@
 package br.selene.projectseleneback.domain.order;
 
 import br.selene.projectseleneback.domain.event.Event;
-import br.selene.projectseleneback.domain.event.TicketCategory;
+import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
