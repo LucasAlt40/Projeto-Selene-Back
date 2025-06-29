@@ -1,4 +1,4 @@
-package br.selene.projectseleneback.application;
+package br.selene.projectseleneback.infra.services;
 
 import br.selene.projectseleneback.domain.customer.Customer;
 import br.selene.projectseleneback.domain.customer.repository.ICustomerRepository;

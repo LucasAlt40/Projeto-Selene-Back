@@ -1,8 +1,8 @@
 package br.selene.projectseleneback.domain.order;
 
-import br.selene.projectseleneback.model.dto.Customer;
-
 import java.time.LocalDateTime;
+
+import br.selene.projectseleneback.domain.customer.Customer;
 
 public class Order {
     private int id;
