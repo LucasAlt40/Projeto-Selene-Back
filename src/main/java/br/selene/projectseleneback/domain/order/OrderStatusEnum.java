@@ -1,7 +1,7 @@
 package br.selene.projectseleneback.domain.order;
 
 public enum OrderStatusEnum {
-    EXPIRED("EXPIRED");
+    EXPIRED("EXPIRED"), CANCELLED("CANCELLED"), COMPLETED("COMPLETED"), PROCESSING("PROCESSING");
 
     private final String name;
 
