@@ -15,11 +15,11 @@ public class NotificationHookController {
 
     @PostMapping("/checkout")
     public void notifyCheckout(@RequestBody RequestCheckoutNotificationDTO request) {
-        this.orderService.cancelOrder(request);
+        this.orderService.updateOrderStatus(request);
     }
 
     @PostMapping("/payment")
     public void notifyPayment(@RequestBody RequestCheckoutNotificationDTO request) {
-        this.orderService.cancelOrder(request);
+        this.orderService.updateOrderStatus(request);
     }
 }
