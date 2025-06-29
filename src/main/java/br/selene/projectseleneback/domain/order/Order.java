@@ -1,24 +1,25 @@
 package br.selene.projectseleneback.domain.order;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import br.selene.projectseleneback.domain.customer.Customer;
 
 public class Order {
     private int id;
     private Customer customer;
-    private int totalPrice;
     private OrderStatusEnum status;
     private LocalDateTime createdAt;
+    private List<TicketOrder> items;
 
     public Order() {}
 
-    public Order(int id, Customer customer, int totalPrice, OrderStatusEnum status, LocalDateTime createdAt) {
+    public Order(int id, Customer customer,  OrderStatusEnum status, LocalDateTime createdAt, List<TicketOrder> items) {
         this.id = id;
         this.customer = customer;
-        this.totalPrice = totalPrice;
         this.status = status;
         this.createdAt = createdAt;
+        this.items = items;
     }
 
     public int getId() {
@@ -29,7 +30,6 @@ public class Order {
         this.id = id;
     }
 
-
     public Customer getCustomer() {
         return customer;
     }
@@ -39,11 +39,11 @@ public class Order {
     }
 
     public int getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(int totalPrice) {
-        this.totalPrice = totalPrice;
+        int total = 0;
+        for (TicketOrder i : items) {
+            total += i.getPrice();
+        }
+        return total;
     }
 
     public OrderStatusEnum getStatus() {
@@ -60,5 +60,13 @@ public class Order {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<TicketOrder> getItems() {
+        return items;
+    }
+
+    public void setItems(List<TicketOrder> items) {
+        this.items = items;
     }
 }

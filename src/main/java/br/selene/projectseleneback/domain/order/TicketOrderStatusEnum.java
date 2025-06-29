@@ -1,4 +1,4 @@
-package br.selene.projectseleneback.domain.event;
+package br.selene.projectseleneback.domain.order;
 
 public enum TicketOrderStatusEnum {
 
