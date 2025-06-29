@@ -2,6 +2,7 @@ package br.selene.projectseleneback.infra.repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -49,16 +50,73 @@ public class JdbcCustomerRepository implements ICustomerRepository {
 	public Customer findByEmail(String customerEmail) {
 		return jdbc.queryForObject("select id, document, name, email, phone from tb_customer where email = ?", this::mapRow, customerEmail);
 	}
+
+	@Override
+	public Customer save(Customer customer) {
+		Long customerId = customer.getId();
+		
+		if(customerId != 0) {
+			updateCustomer(customer);
+			return customer;
+		}
+		
+		createCustomer(customer);
+		return customer;
+	}
+
 	
 	private Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return new Customer(
-					rs.getInt("id"),
+					rs.getLong("id"),
 					rs.getString("document"),
 					rs.getString("name"),
 					rs.getString("email"),
 					rs.getString("phone")
 				);
 	}
+	
+	private void createCustomer(Customer customer) {
+		jdbc.update(
+				"insert into tb_customer(document, name, email, phone, password) "
+				+ "values (?, ?, ?, ?, ?)", 
+				customer.getDocument(),
+				customer.getName(),
+				customer.getEmail(),
+				customer.getPhone(),
+				customer.getPassword()
+			);
+	}
+	
+	private void updateCustomer(Customer customer) {
+	    StringBuilder updateQuery = new StringBuilder("UPDATE tb_customer SET ");
+	    List<String> fieldsToUpdate = new ArrayList<>();
+	    List<Object> params = new ArrayList<>();
 
+	    if (customer.getName() != null && !customer.getName().isBlank()) {
+	        fieldsToUpdate.add("name = ?");
+	        params.add(customer.getName());
+	    }
+	    if (customer.getEmail() != null && !customer.getEmail().isBlank()) {
+	        fieldsToUpdate.add("email = ?");
+	        params.add(customer.getEmail());
+	    }
+	    if (customer.getPhone() != null && !customer.getPhone().isBlank()) {
+	        fieldsToUpdate.add("phone = ?");
+	        params.add(customer.getPhone());
+	    }
+	    if (customer.getPassword() != null && !customer.getPassword().isBlank()) {
+	        fieldsToUpdate.add("password = ?");
+	        params.add(customer.getPassword());
+	    }
+
+	    updateQuery.append(String.join(", ", fieldsToUpdate));
+	    updateQuery.append(" WHERE id = ?");
+	    params.add(customer.getId());
+
+	    jdbc.update(
+	    		updateQuery.toString(), 
+	    		params.toArray()
+			);
+	}
 
 }

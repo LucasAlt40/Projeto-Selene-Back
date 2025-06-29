@@ -8,6 +8,8 @@ public class MappingEndpoint {
 
 		public static final String MAIN = "/usuario";
 		public static final String FIND_ALL = FIND;
+		public static final String CREATE = "cadastrar";
+		public static final String UPDATE = "atualizar";
 
 	}
 	

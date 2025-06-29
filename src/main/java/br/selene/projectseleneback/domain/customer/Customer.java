@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 public class Customer {
 
-	private int id;
+	private Long id;
 	private String document;
 	private String name;
 	private String email;
@@ -15,7 +15,7 @@ public class Customer {
 	public Customer() {
 	}
 
-	public Customer(int id, String document, String name, String email, String phone) {
+	public Customer(Long id, String document, String name, String email, String phone) {
 		this.id = id;
 		this.document = document;
 		this.name = name;
@@ -23,11 +23,11 @@ public class Customer {
 		this.phone = phone;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

@@ -3,6 +3,8 @@ package br.selene.projectseleneback.domain.event;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
+
 public class Event {
 
 	private int id;
