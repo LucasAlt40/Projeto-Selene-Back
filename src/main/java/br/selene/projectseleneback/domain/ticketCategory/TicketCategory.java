@@ -8,8 +8,20 @@ public class TicketCategory {
 	private int price;
 	private String description;
 	private int quantity;
-	private int quantityAvaliable;
 	private LocalDateTime createdAt;
+	private int quantityAvaliable;
+
+	public TicketCategory() {
+	}
+
+	public TicketCategory(int id, int price, String description, int quantity, LocalDateTime createdAt, int quantityAvaliable) {
+		this.id = id;
+		this.price = price;
+		this.description = description;
+		this.quantity = quantity;
+		this.createdAt = createdAt;
+		this.quantityAvaliable = quantityAvaliable;
+	}
 
 	public int getId() {
 		return id;
@@ -51,11 +63,7 @@ public class TicketCategory {
 		this.createdAt = createdAt;
 	}
 
-	public int getQuantityAvaliable() {
-		return quantityAvaliable;
-	}
+	public int getQuantityAvaliable() {return quantityAvaliable;}
 
-	public void setQuantityAvaliable(int quantityAvaliable) {
-		this.quantityAvaliable = quantityAvaliable;
-	}
+	public void setQuantityAvaliable(int quantityAvailable) {this.quantityAvaliable = quantityAvailable;}
 }
