@@ -1,7 +1,5 @@
 package br.selene.projectseleneback.presentation;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-
 import br.selene.projectseleneback.infra.services.CheckoutService;
 
 import org.springframework.web.bind.annotation.*;

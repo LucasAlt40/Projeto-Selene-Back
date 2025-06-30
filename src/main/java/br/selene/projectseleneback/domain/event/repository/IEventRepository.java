@@ -7,7 +7,5 @@ public interface IEventRepository {
 	public Iterable<Event> findAll();
 	
 	public Event findById(int eventId);
-
-
 	
 }
