@@ -1,7 +1,11 @@
 package br.selene.projectseleneback.presentation;
 
+import br.selene.projectseleneback.domain.checkout.Checkout;
+import br.selene.projectseleneback.domain.checkout.service.ICheckoutService;
 import br.selene.projectseleneback.infra.services.CheckoutService;
 
+import br.selene.projectseleneback.presentation.dto.ApiResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -9,10 +13,15 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 public class CheckoutController {
 
-    private final CheckoutService checkoutService;
+    private final ICheckoutService checkoutService;
 
-    public CheckoutController(CheckoutService checkoutService) {
+    public CheckoutController(ICheckoutService checkoutService) {
         this.checkoutService = checkoutService;
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ApiResponse<Checkout>> getById(@PathVariable String id) {
+        return ResponseEntity.ok(new ApiResponse<>(true, "Sucesso ao obter checkout", this.checkoutService.findById(id), null));
     }
 
 

@@ -5,8 +5,6 @@ import br.selene.projectseleneback.domain.checkout.CheckoutStatusEnum;
 import br.selene.projectseleneback.domain.checkout.PaymentCheckoutStatusEnum;
 import br.selene.projectseleneback.domain.checkout.repository.ICheckoutRepository;
 import br.selene.projectseleneback.domain.order.Order;
-import br.selene.projectseleneback.domain.order.OrderStatusEnum;
-import br.selene.projectseleneback.domain.order.TicketOrder;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -14,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,11 +54,27 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
     }
 
 
-
     @Override
-    public Checkout findById(int checkoutId) {
-        return null;
+    public Checkout findById(String checkoutId) {
+        String sql = "SELECT id , payment_link, status, payment_status " +
+                "FROM tb_checkout_order WHERE id = ?";
+
+        return jdbc.queryForObject(sql, (rs, rowNum) -> {
+            //  int orderId = rs.getInt("id_order");
+            //  Order order = new Order();
+            String status = rs.getString("status");
+            CheckoutStatusEnum statusEnum = status != null ? CheckoutStatusEnum.valueOf(status) : null;
+
+            return new Checkout(
+                    rs.getString("id"),
+                    null,
+                    rs.getString("payment_link"),
+                    statusEnum,
+                    PaymentCheckoutStatusEnum.valueOf(rs.getString("payment_status"))
+            );
+        }, checkoutId);
     }
+
 
     @Override
     public Checkout save(Checkout checkout) {
@@ -75,6 +87,22 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
         updateCheckout(checkout);
         return checkout;
+    }
+
+    @Override
+    public List<Checkout> findCheckoutsByOrderId(int orderId) {
+        String sql = "SELECT id AS checkout_id, payment_link, status, payment_status " +
+                "FROM tb_checkout_order WHERE id_order = ?";
+
+        Order order = orderRepository.findById(orderId);
+
+        return jdbc.query(sql, (rs, rowNum) -> new Checkout(
+                rs.getString("checkout_id"),
+                order,
+                rs.getString("payment_link"),
+                CheckoutStatusEnum.valueOf(rs.getString("status")),
+                PaymentCheckoutStatusEnum.valueOf(rs.getString("payment_status"))
+        ), orderId);
     }
 
 
