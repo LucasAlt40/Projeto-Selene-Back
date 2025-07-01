@@ -1,17 +1,19 @@
 package br.selene.projectseleneback.domain.checkout;
 
+import br.selene.projectseleneback.domain.order.Order;
+
 public class Checkout {
     private String id;
-    private int idOrder;
+    private Order order;
     private String paymentLink;
     private CheckoutStatusEnum status;
     private PaymentCheckoutStatusEnum paymentStatus;
 
     public Checkout() {}
 
-    public Checkout(String id, int idOrder, String paymentLink, CheckoutStatusEnum status, PaymentCheckoutStatusEnum paymentStatus) {
+    public Checkout(String id, Order order, String paymentLink, CheckoutStatusEnum status, PaymentCheckoutStatusEnum paymentStatus) {
         this.id = id;
-        this.idOrder = idOrder;
+        this.order = order;
         this.paymentLink = paymentLink;
         this.status = status;
         this.paymentStatus = paymentStatus;
@@ -25,12 +27,12 @@ public class Checkout {
         this.id = id;
     }
 
-    public int getIdOrder() {
-        return idOrder;
+    public Order getOrder() {
+        return order;
     }
 
-    public void setIdOrder(int idOrder) {
-        this.idOrder = idOrder;
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     public String getPaymentLink() {
