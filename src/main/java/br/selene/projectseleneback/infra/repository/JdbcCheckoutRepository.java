@@ -56,18 +56,18 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
     @Override
     public Checkout findById(String checkoutId) {
-        String sql = "SELECT id , payment_link, status, payment_status " +
+        String sql = "SELECT id, id_order, payment_link, status, payment_status " +
                 "FROM tb_checkout_order WHERE id = ?";
 
         return jdbc.queryForObject(sql, (rs, rowNum) -> {
-            //  int orderId = rs.getInt("id_order");
-            //  Order order = new Order();
+            int orderId = rs.getInt("id_order");
+            Order order = this.orderRepository.findById(orderId);
             String status = rs.getString("status");
             CheckoutStatusEnum statusEnum = status != null ? CheckoutStatusEnum.valueOf(status) : null;
 
             return new Checkout(
                     rs.getString("id"),
-                    null,
+                    order,
                     rs.getString("payment_link"),
                     statusEnum,
                     PaymentCheckoutStatusEnum.valueOf(rs.getString("payment_status"))

@@ -44,7 +44,7 @@ public class JdbcOrderRepository implements IOrderRepository {
 
         Order order = jdbc.queryForObject(orderQuery, (rs, rowNum) -> mapOrder(rs, tickets) , orderId);
 
-        return null;
+        return order;
     }
 
     @Override
@@ -76,7 +76,7 @@ public class JdbcOrderRepository implements IOrderRepository {
 
 
     private TicketOrder mapTicketOrder(ResultSet rs, int rowNum) throws SQLException {
-        int ticketCategoryId = rs.getInt("ticket");
+        int ticketCategoryId = rs.getInt("ticket_category_id");
 
         int oldTicketPrice = rs.getInt("ticket_category_price");
         String oldTicketDescription = rs.getString("ticket_category_description");
