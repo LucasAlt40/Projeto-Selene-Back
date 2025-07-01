@@ -3,7 +3,6 @@ package br.selene.projectseleneback.infra.facade;
 import br.selene.projectseleneback.domain.checkout.service.ICheckoutService;
 import br.selene.projectseleneback.domain.order.OrderStatusEnum;
 import br.selene.projectseleneback.domain.order.service.IOrderService;
-import br.selene.projectseleneback.presentation.dto.notification.RequestCheckoutNotificationDTO;
 import org.springframework.stereotype.Service;
 
 @Service

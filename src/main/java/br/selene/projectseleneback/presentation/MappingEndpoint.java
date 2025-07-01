@@ -20,4 +20,12 @@ public class MappingEndpoint {
 		
 	}
 
+	public class TicketCategory {
+
+		public static final String MAIN = "/categoria-ingresso";
+		public static final String FIND_ALL = FIND;
+		public static final String CREATE = "cadastrar";
+		public static final String UPDATE = "atualizar";
+	}
+
 }

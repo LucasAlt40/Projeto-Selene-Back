@@ -1,6 +1,5 @@
 package br.selene.projectseleneback.domain.order.service;
 
-import br.selene.projectseleneback.domain.event.TicketCategory;
 import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.dto.CreateTicketDTO;
 import br.selene.projectseleneback.domain.order.dto.RequestCreateOrderDTO;
