@@ -36,18 +36,14 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
         int total = jdbc.queryForObject(rowCountSql, Integer.class);
 
         String querySql =
-                "SELECT " +
-                    "c.id AS checkout_id, c.id_order, c.payment_link, c.status AS checkout_status, c.payment_status, " +
-                    "o.id AS order_id, o.status AS order_status, o.created_at AS order_created_at " +
-                    "FROM tb_checkout_order c " +
-                    "INNER JOIN tb_header_order o ON c.id_order = o.id " +
-                    "LIMIT ? OFFSET ?";
+                "SELECT id AS checkout_id, id_order, payment_link, status, payment_status " +
+                        "FROM tb_checkout_order " +
+                        "LIMIT ? OFFSET ?";
 
         List<Checkout> checkouts = jdbc.query(querySql, (rs, rowNum) -> {
-            Order order = new Order();
-            order.setId(rs.getInt("order_id"));
-            order.setStatus(OrderStatusEnum.valueOf(rs.getString("order_status")));
-            order.setCreatedAt(rs.getTimestamp("order_created_at").toLocalDateTime());
+            int orderId = rs.getInt("id_order");
+
+            Order order = orderRepository.findById(orderId);
 
             return new Checkout(
                     rs.getString("checkout_id"),
@@ -58,13 +54,9 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
             );
         }, pageable.getPageSize(), pageable.getOffset());
 
-        for (Checkout c : checkouts) {
-            List<TicketOrder> items = orderRepository.findItemsByOrderId(c.getOrder().getId());
-            c.getOrder().setItems(items);
-        }
-
         return new PageImpl<>(checkouts, pageable, total);
     }
+
 
 
     @Override
