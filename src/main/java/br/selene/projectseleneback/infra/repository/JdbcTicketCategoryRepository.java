@@ -1,5 +1,6 @@
 package br.selene.projectseleneback.infra.repository;
 
+import br.selene.projectseleneback.infra.utils.DateHelper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,7 @@ public class JdbcTicketCategoryRepository implements ITicketCategoryRepository {
 
 		int total = jdbc.queryForObject(rowCountSql, Integer.class);
 
-		String querySql = "SELECT id, price, description, quantity, created_at, quantity_avaliable " +
+		String querySql = "SELECT id, price, description, quantity, created_at, quantity_available " +
 				"FROM tb_ticket_category " +
 				"LIMIT " + pageable.getPageSize() + " " +
 				"OFFSET " + pageable.getOffset();
@@ -43,7 +44,7 @@ public class JdbcTicketCategoryRepository implements ITicketCategoryRepository {
 
 	@Override
 	public TicketCategory findById(int ticketCategoryId) {
-		return jdbc.queryForObject("select id, price, description, quantity, created_at, quantity_avaliable from tb_ticket_category where id = ?", this::mapRow, ticketCategoryId);
+		return jdbc.queryForObject("select id, price, description, quantity, created_at, quantity_available from tb_ticket_category where id = ?", this::mapRow, ticketCategoryId);
 	}
 
 	@Override
@@ -65,14 +66,14 @@ public class JdbcTicketCategoryRepository implements ITicketCategoryRepository {
 				rs.getInt("price"),
 				rs.getString("description"),
 				rs.getInt("quantity"),
-				LocalDateTime.parse(rs.getString("createdAt")),
-				rs.getInt("quantityAvailable")
+				DateHelper.convertDateToLocalDateTime(rs.getTimestamp("created_at")),
+				rs.getInt("quantity_available")
 		);
 	}
 
 	private void createTicketCategory(TicketCategory ticketCategory) {
 		jdbc.update(
-				"insert into tb_ticket_category(price, description, quantity, quantity_avaliable) "
+				"insert into tb_ticket_category(price, description, quantity, quantity_available) "
 						+ "values (?, ?, ?, ?)",
 				ticketCategory.getPrice(),
 				ticketCategory.getDescription(),
