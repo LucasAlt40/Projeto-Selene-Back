@@ -17,6 +17,8 @@ public class MappingEndpoint {
 		
 		public static final String MAIN = "/evento";
 		public static final String FIND_ALL = FIND;
+		public static final String CREATE = "cadastrar";
+		public static final String UPDATE = "atualizar";
 		
 	}
 

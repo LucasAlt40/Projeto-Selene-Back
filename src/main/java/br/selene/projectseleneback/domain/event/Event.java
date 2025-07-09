@@ -15,6 +15,16 @@ public class Event {
 	private List<TicketCategory> tickets;
 	private LocalDateTime createdAt;
 
+	public Event(int id, String title, String description, LocalDateTime date, EventStatusEnum status, List<TicketCategory> tickets, LocalDateTime createdAt) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.date = date;
+		this.status = status;
+		this.tickets = tickets;
+		this.createdAt = createdAt;
+	}
+
 	public int getId() {
 		return id;
 	}
