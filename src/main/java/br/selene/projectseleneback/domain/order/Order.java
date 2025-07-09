@@ -13,6 +13,14 @@ public class Order {
 
     public Order() {}
 
+    public Order(int id, int customerId, OrderStatusEnum status, LocalDateTime createdAt) {
+        this.id = id;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.customerId = customerId;
+    }
+
+
     public Order(int id, int customerId,  OrderStatusEnum status, LocalDateTime createdAt, List<ItemOrder> items) {
         this.id = id;
         this.status = status;
