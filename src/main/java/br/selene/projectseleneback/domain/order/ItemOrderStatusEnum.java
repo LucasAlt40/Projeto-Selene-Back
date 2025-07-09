@@ -1,12 +1,12 @@
 package br.selene.projectseleneback.domain.order;
 
-public enum TicketOrderStatusEnum {
+public enum ItemOrderStatusEnum {
 
 	CANCELED("CANCELED"), PENDING("PENDING"), PAID("PAID");
 
 	private final String name;
 
-	private TicketOrderStatusEnum(String name) {
+	private ItemOrderStatusEnum(String name) {
 		this.name = name;
 	}
 
