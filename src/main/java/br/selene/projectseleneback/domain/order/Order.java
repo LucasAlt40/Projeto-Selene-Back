@@ -5,15 +5,15 @@ import java.util.List;
 
 public class Order {
 	
-    private int id;
-    private int customerId;
+    private Long id;
+    private Long customerId;
     private List<ItemOrder> items;
     private OrderStatusEnum status;
     private LocalDateTime createdAt;
 
     public Order() {}
 
-    public Order(int id, int customerId,  OrderStatusEnum status, LocalDateTime createdAt, List<ItemOrder> items) {
+    public Order(Long id, Long customerId,  OrderStatusEnum status, LocalDateTime createdAt, List<ItemOrder> items) {
         this.id = id;
         this.status = status;
         this.createdAt = createdAt;
@@ -22,19 +22,19 @@ public class Order {
     }
 
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public int getCustomer() {
+    public Long getCustomer() {
         return customerId;
     }
 
-    public void setCustomer(int customerId) {
+    public void setCustomer(Long customerId) {
         this.customerId = customerId;
     }
 

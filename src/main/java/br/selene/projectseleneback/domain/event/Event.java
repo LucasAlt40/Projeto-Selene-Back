@@ -7,19 +7,36 @@ import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
 
 public class Event {
 
-	private int id;
+	private Long id;
 	private String title;
 	private String description;
 	private LocalDateTime date;
+	private Address address;
 	private EventStatusEnum status;
 	private List<TicketCategory> tickets;
 	private LocalDateTime createdAt;
 
-	public int getId() {
+	public Event() {
+	}
+
+	public Event(Long id, String title, String description, LocalDateTime date, Address address, EventStatusEnum status,
+			List<TicketCategory> tickets, LocalDateTime createdAt) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.date = date;
+		this.address = address;
+		this.status = status;
+		this.tickets = tickets;
+		this.createdAt = createdAt;
+	}
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -45,6 +62,14 @@ public class Event {
 
 	public void setDate(LocalDateTime date) {
 		this.date = date;
+	}
+
+	public Address getAddress() {
+		return address;
+	}
+
+	public void setAddress(Address address) {
+		this.address = address;
 	}
 
 	public EventStatusEnum getStatus() {

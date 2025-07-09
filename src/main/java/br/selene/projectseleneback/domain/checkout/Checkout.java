@@ -3,59 +3,62 @@ package br.selene.projectseleneback.domain.checkout;
 import br.selene.projectseleneback.domain.order.Order;
 
 public class Checkout {
-    private String id;
-    private Order order;
-    private String paymentLink;
-    private CheckoutStatusEnum status;
-    private PaymentCheckoutStatusEnum paymentStatus;
 
-    public Checkout() {}
+	private String id;
+	private Order order;
+	private String paymentLink;
+	private CheckoutStatusEnum status;
+	private PaymentCheckoutStatusEnum paymentStatus;
 
-    public Checkout(String id, Order order, String paymentLink, CheckoutStatusEnum status, PaymentCheckoutStatusEnum paymentStatus) {
-        this.id = id;
-        this.order = order;
-        this.paymentLink = paymentLink;
-        this.status = status;
-        this.paymentStatus = paymentStatus;
-    }
+	public Checkout() {
+	}
 
-    public String getId() {
-        return id;
-    }
+	public Checkout(String id, Order order, String paymentLink, CheckoutStatusEnum status,
+			PaymentCheckoutStatusEnum paymentStatus) {
+		this.id = id;
+		this.order = order;
+		this.paymentLink = paymentLink;
+		this.status = status;
+		this.paymentStatus = paymentStatus;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public Order getOrder() {
-        return order;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
+	public Order getOrder() {
+		return order;
+	}
 
-    public String getPaymentLink() {
-        return paymentLink;
-    }
+	public void setOrder(Order order) {
+		this.order = order;
+	}
 
-    public void setPaymentLink(String paymentLink) {
-        this.paymentLink = paymentLink;
-    }
+	public String getPaymentLink() {
+		return paymentLink;
+	}
 
-    public CheckoutStatusEnum getStatus() {
-        return status;
-    }
+	public void setPaymentLink(String paymentLink) {
+		this.paymentLink = paymentLink;
+	}
 
-    public void setStatus(CheckoutStatusEnum status) {
-        this.status = status;
-    }
+	public CheckoutStatusEnum getStatus() {
+		return status;
+	}
 
-    public PaymentCheckoutStatusEnum getPaymentStatus() {
-        return paymentStatus;
-    }
+	public void setStatus(CheckoutStatusEnum status) {
+		this.status = status;
+	}
 
-    public void setPaymentStatus(PaymentCheckoutStatusEnum paymentStatus) {
-        this.paymentStatus = paymentStatus;
-    }
+	public PaymentCheckoutStatusEnum getPaymentStatus() {
+		return paymentStatus;
+	}
+
+	public void setPaymentStatus(PaymentCheckoutStatusEnum paymentStatus) {
+		this.paymentStatus = paymentStatus;
+	}
 }

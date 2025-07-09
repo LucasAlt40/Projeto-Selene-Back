@@ -10,7 +10,7 @@ public interface ITicketCategoryRepository {
 
 	public Page<TicketCategory> findAll(Pageable pageable);
 
-	public TicketCategory findById(int ticketCategoryId);
+	public TicketCategory findById(Long ticketCategoryId);
 
 
 }

@@ -28,7 +28,7 @@ public class TicketCategoryController {
     }
 
     @PostMapping("/{id}/" + MappingEndpoint.TicketCategory.UPDATE)
-    public TicketCategory update(@PathVariable int id, @RequestBody UpdateTicketCategoryDTO updateTicketCategoryDTO) {
+    public TicketCategory update(@PathVariable Long id, @RequestBody UpdateTicketCategoryDTO updateTicketCategoryDTO) {
         return ticketCategoryService.update(id, updateTicketCategoryDTO);
     }
 
