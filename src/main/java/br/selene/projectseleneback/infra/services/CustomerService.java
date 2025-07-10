@@ -98,5 +98,9 @@ public class CustomerService {
 		
 		return customerRepository.save(newCustomer);
 	}
+
+	public Customer findById(Long customerId) {
+		return  new Customer();
+	}
 	
 }
