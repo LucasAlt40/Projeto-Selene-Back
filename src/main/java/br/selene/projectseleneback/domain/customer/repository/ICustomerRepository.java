@@ -9,7 +9,7 @@ public interface ICustomerRepository {
 	
 	public Page<Customer> findAll(Pageable pageable);
 	
-	public Customer findById(int customerId);
+	public Customer findById(Long customerId);
 	
 	public Customer findByEmail(String customerEmail);
 	

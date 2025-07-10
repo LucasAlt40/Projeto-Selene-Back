@@ -1,44 +1,77 @@
 package br.selene.projectseleneback.domain.event;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-
-import br.selene.projectseleneback.domain.customer.Customer;
-import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
 
 public final class Ticket {
 
-	private final int id;
-	private final Event event;
-	private final TicketCategory ticketCategory;
-	private final Customer customer;
+	private final Long id;
+	private final Long eventId;
+	private final String eventTitle;
+	private final LocalDateTime eventDate;
+	private final Long ticketCategoryId;
+	private final int ticketCategoryPrice;
+	private final String ticketCategoryDescription;
+	private final Long customerId;
+	private final String customerDocument;
+	private final String customerName;
 	private final TicketStatusEnum status;
 	private final LocalDateTime createdAt;
 
-	public Ticket(int id, Event event, TicketCategory ticketCategory, Customer customer, Instant expirationTime,
-			TicketStatusEnum status, LocalDateTime createdAt) {
+	public Ticket(Long id, Long eventId, String eventTitle, LocalDateTime eventDate, Long ticketCategoryId,
+			int ticketCategoryPrice, String ticketCategoryDescription, Long customerId, String customerDocument,
+			String customerName, TicketStatusEnum status, LocalDateTime createdAt) {
 		this.id = id;
-		this.event = event;
-		this.ticketCategory = ticketCategory;
-		this.customer = customer;
+		this.eventId = eventId;
+		this.eventTitle = eventTitle;
+		this.eventDate = eventDate;
+		this.ticketCategoryId = ticketCategoryId;
+		this.ticketCategoryPrice = ticketCategoryPrice;
+		this.ticketCategoryDescription = ticketCategoryDescription;
+		this.customerId = customerId;
+		this.customerDocument = customerDocument;
+		this.customerName = customerName;
 		this.status = status;
 		this.createdAt = createdAt;
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public Event getEvent() {
-		return event;
+	public Long getEventId() {
+		return eventId;
 	}
 
-	public TicketCategory getTicketCategory() {
-		return ticketCategory;
+	public String getEventTitle() {
+		return eventTitle;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public LocalDateTime getEventDate() {
+		return eventDate;
+	}
+
+	public Long getTicketCategoryId() {
+		return ticketCategoryId;
+	}
+
+	public int getTicketCategoryPrice() {
+		return ticketCategoryPrice;
+	}
+
+	public String getTicketCategoryDescription() {
+		return ticketCategoryDescription;
+	}
+
+	public Long getCustomerId() {
+		return customerId;
+	}
+
+	public String getCustomerDocument() {
+		return customerDocument;
+	}
+
+	public String getCustomerName() {
+		return customerName;
 	}
 
 	public TicketStatusEnum getStatus() {

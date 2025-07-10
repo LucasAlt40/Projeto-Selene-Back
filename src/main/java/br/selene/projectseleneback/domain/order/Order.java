@@ -4,69 +4,61 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Order {
-	
-    private int id;
-    private int customerId;
-    private List<ItemOrder> items;
-    private OrderStatusEnum status;
-    private LocalDateTime createdAt;
 
-    public Order() {}
+	private Long id;
+	private Long customerId;
+	private List<ItemOrder> items;
+	private OrderStatusEnum status;
+	private LocalDateTime createdAt;
 
-    public Order(int id, int customerId, OrderStatusEnum status, LocalDateTime createdAt) {
-        this.id = id;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.customerId = customerId;
-    }
+	public Order() {
+	}
 
+	public Order(Long id, Long customerId, OrderStatusEnum status, List<ItemOrder> items, LocalDateTime createdAt) {
+		this.id = id;
+		this.status = status;
+		this.customerId = customerId;
+		this.items = items;
+		this.createdAt = createdAt;
+	}
 
-    public Order(int id, int customerId,  OrderStatusEnum status, LocalDateTime createdAt, List<ItemOrder> items) {
-        this.id = id;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.items = items;
-        this.customerId = customerId;
-    }
+	public Long getId() {
+		return id;
+	}
 
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public int getId() {
-        return id;
-    }
+	public Long getCustomer() {
+		return customerId;
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public void setCustomer(Long customerId) {
+		this.customerId = customerId;
+	}
 
-    public int getCustomer() {
-        return customerId;
-    }
+	public OrderStatusEnum getStatus() {
+		return status;
+	}
 
-    public void setCustomer(int customerId) {
-        this.customerId = customerId;
-    }
+	public void setStatus(OrderStatusEnum status) {
+		this.status = status;
+	}
 
-    public OrderStatusEnum getStatus() {
-        return status;
-    }
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 
-    public void setStatus(OrderStatusEnum status) {
-        this.status = status;
-    }
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	public List<ItemOrder> getItems() {
+		return items;
+	}
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public List<ItemOrder> getItems() {
-        return items;
-    }
-
-    public void setItems(List<ItemOrder> items) {
-        this.items = items;
-    }
+	public void setItems(List<ItemOrder> items) {
+		this.items = items;
+	}
 }

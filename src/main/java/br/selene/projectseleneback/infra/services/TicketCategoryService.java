@@ -84,7 +84,7 @@ public class TicketCategoryService{
         return ticketCategoryRepository.save(newTicketCategory);
     }
 
-    public TicketCategory update(int TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO) {
+    public TicketCategory update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO) {
         TicketCategory newTicketCategory = new TicketCategory();
 
         newTicketCategory.setId(TicketCategoryId);

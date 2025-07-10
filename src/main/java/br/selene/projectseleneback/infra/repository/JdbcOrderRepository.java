@@ -1,5 +1,6 @@
 package br.selene.projectseleneback.infra.repository;
 
+import br.selene.projectseleneback.domain.order.ItemOrder;
 import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.OrderStatusEnum;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Repository
 public class JdbcOrderRepository implements IOrderRepository {
@@ -39,9 +41,10 @@ public class JdbcOrderRepository implements IOrderRepository {
         OrderStatusEnum orderStatus = OrderStatusEnum.valueOf(status);
 
         return new Order(
-                rs.getInt("id"),
-                rs.getInt("customer_id"),
+                rs.getLong("id"),
+                rs.getLong("customer_id"),
                 orderStatus,
+                new ArrayList<ItemOrder>(), // TO-DO recuperar informações com left join no banco
                 createdAt
         );
     }

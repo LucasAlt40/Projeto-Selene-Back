@@ -12,7 +12,6 @@ import br.selene.projectseleneback.domain.ticketCategory.repository.ITicketCateg
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,13 +42,13 @@ public class JdbcTicketCategoryRepository implements ITicketCategoryRepository {
 	}
 
 	@Override
-	public TicketCategory findById(int ticketCategoryId) {
+	public TicketCategory findById(Long ticketCategoryId) {
 		return jdbc.queryForObject("select id, price, description, quantity, created_at, quantity_available from tb_ticket_category where id = ?", this::mapRow, ticketCategoryId);
 	}
 
 	@Override
 	public TicketCategory save(TicketCategory ticketCategory) {
-		int ticketCategoryId = ticketCategory.getId();
+		Long ticketCategoryId = ticketCategory.getId();
 
 		if(ticketCategoryId != 0) {
 			updateTicketCategory(ticketCategory);
@@ -62,7 +61,7 @@ public class JdbcTicketCategoryRepository implements ITicketCategoryRepository {
 
 	private TicketCategory mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return new TicketCategory(
-				rs.getInt("id"),
+				rs.getLong("id"),
 				rs.getInt("price"),
 				rs.getString("description"),
 				rs.getInt("quantity"),

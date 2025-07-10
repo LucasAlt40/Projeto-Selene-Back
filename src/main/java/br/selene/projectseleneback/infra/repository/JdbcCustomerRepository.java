@@ -42,7 +42,7 @@ public class JdbcCustomerRepository implements ICustomerRepository {
 	}
 
 	@Override
-	public Customer findById(int customerId) {
+	public Customer findById(Long customerId) {
 		return jdbc.queryForObject("select id, document, name, email, phone from tb_customer where id = ?", this::mapRow, customerId);
 	}
 
