@@ -43,39 +43,42 @@ public class CheckoutService implements ICheckoutService {
 
     @Override
     public ResponseCreateCheckoutDTO createCheckout(Order order) {
+
         Customer customer = customerService.findById(order.getCustomer());
+
         var requestCheckout = OrderToRequestCheckout.from(order, customer,redirectUrl, List.of(notificationUrls), List.of(payment_notification_urls));
 
-        var response =  webClient.post()
+        var response = webClient.post()
                 .uri("/checkouts")
                 .bodyValue(requestCheckout)
                 .retrieve()
                 .bodyToMono(ResponseCreateCheckoutDTO.class)
-                .block();
+                .block()
+        ;
 
+        var checkout = checkoutRepository.save(new Checkout(response.id(),order.getId(), response.linkCheckout(), response.status(), null ));
 
-
-        return null;
+        return new ResponseCreateCheckoutDTO(response.id(), response.linkCheckout(), response.status());
     }
 
     @Override
     public Page<Checkout> findAll(Pageable pageable) {
-        return null;
+        return checkoutRepository.findAll(pageable);
     }
 
     @Override
     public Checkout findById(String checkoutId) {
-        return this.checkoutRepository.findById(checkoutId);
+        return checkoutRepository.findById(checkoutId);
     }
 
     @Override
     public Checkout save(Checkout checkout) {
-        return null;
+        return checkoutRepository.save(checkout);
     }
 
     @Override
     public List<Checkout> findCheckoutsByOrderId(int orderId) {
-        return List.of();
+        return checkoutRepository.findCheckoutsByOrderId(orderId);
     }
 
 //    public Mono<ResponseGatewayDTO> criarCheckout(RequestGatewayDTO request) throws JsonProcessingException {

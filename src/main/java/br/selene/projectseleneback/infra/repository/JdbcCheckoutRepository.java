@@ -43,7 +43,7 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
             return new Checkout(
                     rs.getString("checkout_id"),
-                    order,
+                    order.getId(),
                     rs.getString("payment_link"),
                     CheckoutStatusEnum.valueOf(rs.getString("status")),
                     PaymentCheckoutStatusEnum.valueOf(rs.getString("payment_status"))
@@ -67,7 +67,7 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
             return new Checkout(
                     rs.getString("id"),
-                    order,
+                    order.getId(),
                     rs.getString("payment_link"),
                     statusEnum,
                     PaymentCheckoutStatusEnum.valueOf(rs.getString("payment_status"))
@@ -98,7 +98,7 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
         return jdbc.query(sql, (rs, rowNum) -> new Checkout(
                 rs.getString("checkout_id"),
-                order,
+                order.getId(),
                 rs.getString("payment_link"),
                 CheckoutStatusEnum.valueOf(rs.getString("status")),
                 PaymentCheckoutStatusEnum.valueOf(rs.getString("payment_status"))
@@ -110,7 +110,7 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
         jdbc.update(
                 "INSERT INTO tb_checkout_order (id_order, payment_link, status, payment_status) " +
                         "VALUES (?, ?, ?, ?)",
-                checkout.getOrder().getId(),
+                checkout.getOrder(),
                 checkout.getPaymentLink(),
                 checkout.getStatus().name(),
                 checkout.getPaymentStatus().name()
@@ -122,9 +122,9 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
         List<Object> params = new ArrayList<>();
         List<String> fields = new ArrayList<>();
 
-        if (checkout.getOrder() != null && checkout.getOrder().getId() != 0) {
+        if (checkout.getOrder() >= 0 ) {
             fields.add("id_order = ?");
-            params.add(checkout.getOrder().getId());
+            params.add(checkout.getOrder());
         }
 
         if (checkout.getPaymentLink() != null && !checkout.getPaymentLink().isBlank()) {

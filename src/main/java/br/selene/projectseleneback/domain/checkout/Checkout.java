@@ -5,7 +5,7 @@ import br.selene.projectseleneback.domain.order.Order;
 public class Checkout {
 
     private String id;
-    private Order order;
+    private long orderId;
     private String paymentLink;
     private CheckoutStatusEnum status;
     private PaymentCheckoutStatusEnum paymentStatus;
@@ -13,9 +13,9 @@ public class Checkout {
 
 	public Checkout() {}
 
-	public Checkout(String id, Order order, String paymentLink, CheckoutStatusEnum status, PaymentCheckoutStatusEnum paymentStatus) {
+	public Checkout(String id, long order, String paymentLink, CheckoutStatusEnum status, PaymentCheckoutStatusEnum paymentStatus) {
 		this.id = id;
-		this.order = order;
+		this.orderId = order;
 		this.paymentLink = paymentLink;
 		this.status = status;
 		this.paymentStatus = paymentStatus;
@@ -37,12 +37,12 @@ public class Checkout {
 		this.id = id;
 	}
 
-	public Order getOrder() {
-		return order;
+	public long getOrder() {
+		return orderId;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrder(long order) {
+		this.orderId = order;
 	}
 
 	public String getPaymentLink() {
