@@ -21,14 +21,15 @@ public class CheckoutService implements ICheckoutService {
 
 
     public CheckoutService(WebClient.Builder builder, ICheckoutRepository checkoutRepository) {
-        this.webClient = builder.baseUrl("https://sandbox.api.pagseguro.com") // ou o host da API
-                .defaultHeader("Authorization", "<BEARER TOKEN>") // se necessário
+        this.webClient = builder.baseUrl("https://sandbox.api.pagseguro.com")
+                .defaultHeader("Authorization", "<BEARER TOKEN>")
                 .build();
         this.checkoutRepository = checkoutRepository;
     }
 
     @Override
     public ResponseCreateCheckoutDTO createCheckout(Order order) {
+
         return null;
     }
 

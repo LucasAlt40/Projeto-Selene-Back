@@ -8,6 +8,7 @@ public class Checkout {
     private String paymentLink;
     private CheckoutStatusEnum status;
     private PaymentCheckoutStatusEnum paymentStatus;
+    private PaymentMethodsCheckoutEnum paymentMethod;
 
     public Checkout() {}
 
@@ -17,6 +18,14 @@ public class Checkout {
         this.paymentLink = paymentLink;
         this.status = status;
         this.paymentStatus = paymentStatus;
+    }
+
+    public PaymentMethodsCheckoutEnum getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethodsCheckoutEnum paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     public String getId() {
