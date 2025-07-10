@@ -17,17 +17,17 @@ public class TicketCategoryController {
     public TicketCategoryController(TicketCategoryService ticketCategoryService) { this.ticketCategoryService = ticketCategoryService;
     }
 
-    @GetMapping(MappingEndpoint.TicketCategory.FIND_ALL)
+    @GetMapping(MappingEndpoint.FIND)
     public Page<TicketCategory> findAll(){
         return ticketCategoryService.findAll(null);
     }
 
-    @PostMapping(MappingEndpoint.TicketCategory.CREATE)
+    @PostMapping(MappingEndpoint.CREATE)
     public TicketCategory create(@RequestBody CreateTicketCategoryDTO createTicketCategoryDTO) {
         return ticketCategoryService.create(createTicketCategoryDTO);
     }
 
-    @PostMapping("/{id}/" + MappingEndpoint.TicketCategory.UPDATE)
+    @PostMapping("/{id}" + MappingEndpoint.UPDATE)
     public TicketCategory update(@PathVariable Long id, @RequestBody UpdateTicketCategoryDTO updateTicketCategoryDTO) {
         return ticketCategoryService.update(id, updateTicketCategoryDTO);
     }
