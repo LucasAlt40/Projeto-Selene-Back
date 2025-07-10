@@ -1,13 +1,13 @@
 package br.selene.projectseleneback.domain.customer.repository;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 
 import br.selene.projectseleneback.domain.customer.Customer;
+import br.selene.projectseleneback.domain.customer.dto.SearchCustomerDTO;
 
 public interface ICustomerRepository {
 	
-	public Page<Customer> findAll(Pageable pageable);
+	public Page<Customer> findAll(SearchCustomerDTO searchCustomerDTO);
 	
 	public Customer findById(Long customerId);
 	

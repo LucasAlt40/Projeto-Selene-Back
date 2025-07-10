@@ -7,11 +7,13 @@ import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import br.selene.projectseleneback.domain.customer.Customer;
+import br.selene.projectseleneback.domain.customer.dto.SearchCustomerDTO;
 import br.selene.projectseleneback.domain.customer.repository.ICustomerRepository;
 
 @Repository
@@ -24,22 +26,32 @@ public class JdbcCustomerRepository implements ICustomerRepository {
 	}
 
 	@Override
-	public Page<Customer> findAll(Pageable pageable) {
-		 String rowCountSql = "SELECT count(*) AS row_count " +
-	                "FROM tb_customer";
-		 
-		 int total = jdbc.queryForObject(rowCountSql, Integer.class);
-	                
-		 
-		 String querySql = "SELECT id, document, name, email, phone " +
-	                "FROM tb_customer " +
-	                "LIMIT " + pageable.getPageSize() + " " +
-	                "OFFSET " + pageable.getOffset();
-		 
-		 List<Customer> customers = jdbc.query(querySql, this::mapRow);
-		
-		 return new PageImpl<Customer>(customers, pageable, total);
+	public Page<Customer> findAll(SearchCustomerDTO searchCustomerDTO) {
+	    Pageable pageable = PageRequest.of(
+	    	Math.max(searchCustomerDTO.getPage() - 1, 0),
+	        searchCustomerDTO.getPageSize()
+	    );
+
+	    String rowCountSql = "SELECT count(*) FROM tb_customer";
+	    int total = jdbc.queryForObject(rowCountSql, Integer.class);
+
+	    String querySql = """
+	        SELECT id, document, name, email, phone
+	        FROM tb_customer
+	        ORDER BY id
+	        LIMIT ? OFFSET ?
+	    """;
+
+	    List<Customer> customers = jdbc.query(
+	        querySql,
+	        this::mapRow,
+	        pageable.getPageSize(),
+	        pageable.getOffset()
+	    );
+
+	    return new PageImpl<>(customers, pageable, total);
 	}
+
 
 	@Override
 	public Customer findById(Long customerId) {
