@@ -7,9 +7,12 @@ public class ItemOrder {
 	private int id;
 	private String itemName;
 	private int ticketCategoryId;
+	private String ticketCategoryDescription;
+	private long ticketCategoryPrice;
+	private int ticketCategoryQuantity;
 	private int eventId;
 	private int quantity;
-	private int price;
+	private long price;
 	private String imageUrl;
 
 	private LocalDateTime createdAt;
@@ -28,6 +31,30 @@ public class ItemOrder {
 		this.imageUrl = imageUrl;
 	}
 
+	public String getTicketCategoryDescription() {
+		return ticketCategoryDescription;
+	}
+
+	public void setTicketCategoryDescription(String ticketCategoryDescription) {
+		this.ticketCategoryDescription = ticketCategoryDescription;
+	}
+
+	public long getTicketCategoryPrice() {
+		return ticketCategoryPrice;
+	}
+
+	public void setTicketCategoryPrice(long ticketCategoryPrice) {
+		this.ticketCategoryPrice = ticketCategoryPrice;
+	}
+
+	public int getTicketCategoryQuantity() {
+		return ticketCategoryQuantity;
+	}
+
+	public void setTicketCategoryQuantity(int ticketCategoryQuantity) {
+		this.ticketCategoryQuantity = ticketCategoryQuantity;
+	}
+
 	public String getImageUrl() {
 		return imageUrl;
 	}
@@ -44,11 +71,11 @@ public class ItemOrder {
 		this.itemName = itemName;
 	}
 
-	public int getPrice() {
+	public long getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(long price) {
 		this.price = price;
 	}
 

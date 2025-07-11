@@ -61,4 +61,10 @@ public class Order {
 	public void setItems(List<ItemOrder> items) {
 		this.items = items;
 	}
+
+	public double getTotalPrice() {
+		return this.items.stream()
+				.map(item -> item.getPrice())
+				.reduce( 0.0, (a, b) -> a + b);
+	}
 }

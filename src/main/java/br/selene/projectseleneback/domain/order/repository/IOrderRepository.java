@@ -9,5 +9,5 @@ public interface IOrderRepository {
 
     Order findById(int orderId);
     // TODO salvar ordem header e items e atualizar quantidade de tickets disponivel no avaliable
-    Boolean save(Order order);
+    Order save(Order order);
 }
