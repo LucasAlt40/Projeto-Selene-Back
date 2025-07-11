@@ -33,7 +33,7 @@ public class CheckoutService implements ICheckoutService {
     @Value("@{app.payment_notification_urls}")
     private String payment_notification_urls;
 
-    public CheckoutService(WebClient.Builder builder, ICheckoutRepository checkoutRepository, CustomerService customerService) {
+    public CheckoutService(WebClient.Builder builder, ICheckoutRepository checkoutRepository, CustomerService customerService, TicketCategoryService ticketCategoryService) {
         this.webClient = builder.baseUrl("https://sandbox.api.pagseguro.com")
                 .defaultHeader("Authorization", "<BEARER TOKEN>")
                 .build();

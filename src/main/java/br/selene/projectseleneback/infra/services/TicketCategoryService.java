@@ -94,4 +94,9 @@ public class TicketCategoryService{
 
         return ticketCategoryRepository.save(newTicketCategory);
     }
+
+    // TODO implementar
+    public void reserveTicket(Long ticketCategoryId, int quantity){
+        return;
+    }
 }
