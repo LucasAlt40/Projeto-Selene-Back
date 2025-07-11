@@ -12,5 +12,4 @@ public interface ITicketCategoryRepository {
 
 	public TicketCategory findById(Long ticketCategoryId);
 
-
 }

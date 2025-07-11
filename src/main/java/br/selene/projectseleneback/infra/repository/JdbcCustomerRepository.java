@@ -67,7 +67,7 @@ public class JdbcCustomerRepository implements ICustomerRepository {
 	public Customer save(Customer customer) {
 		Long customerId = customer.getId();
 		
-		if(customerId != 0) {
+		if(customerId != null) {
 			updateCustomer(customer);
 			return customer;
 		}
