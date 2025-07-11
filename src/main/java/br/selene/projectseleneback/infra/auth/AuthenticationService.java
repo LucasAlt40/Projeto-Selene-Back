@@ -35,9 +35,7 @@ public class AuthenticationService {
 		customer.setPhone(registerUserDTO.phone());
 		customer.setPassword(passwordEncoder.encode(registerUserDTO.password()));
 
-		Customer registredCustomer = customerRepository.save(customer);
-		
-		return registredCustomer;
+        return customerRepository.save(customer);
 	}
 
 	public User authenticate(LoginUserDTO loginUserDTO) {

@@ -24,7 +24,7 @@ public class ApplicationConfiguration {
 	@Bean
 	UserDetailsService userDetailsService() {
 		return username -> {
-			Customer customer = customerRepository.findByEmail(username);
+			Customer customer = customerRepository.findByEmailAuth(username);
 			if (customer == null) {
 				throw new UsernameNotFoundException("User not found");
 			}
@@ -44,6 +44,9 @@ public class ApplicationConfiguration {
 
 	@Bean
 	AuthenticationProvider authenticationProvider() {
-		return new DaoAuthenticationProvider(userDetailsService());
+		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+		authProvider.setUserDetailsService(userDetailsService());
+		authProvider.setPasswordEncoder(passwordEncoder());
+		return authProvider;
 	}
 }

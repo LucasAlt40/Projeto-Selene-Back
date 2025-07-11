@@ -64,6 +64,27 @@ public class JdbcCustomerRepository implements ICustomerRepository {
 	}
 
 	@Override
+	public Customer findByEmailAuth(String customerEmail) {
+		return jdbc.queryForObject(
+				"select id, document, name, email, phone, password from tb_customer where email = ?",
+				(rs, rowNum) -> {
+					Customer customer = new Customer(
+							rs.getLong("id"),
+							rs.getString("document"),
+							rs.getString("name"),
+							rs.getString("email"),
+							rs.getString("phone")
+					);
+					customer.setPassword(rs.getString("password"));
+					return customer;
+				},
+				customerEmail
+		);
+
+	}
+
+
+	@Override
 	public Customer save(Customer customer) {
 		Long customerId = customer.getId();
 		
