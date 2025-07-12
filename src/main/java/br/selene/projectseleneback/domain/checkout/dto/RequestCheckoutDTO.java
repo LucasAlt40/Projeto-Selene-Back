@@ -10,7 +10,7 @@ public record RequestCheckoutDTO(
         CustomerCheckoutDTO  customer,
         List<ItemsCheckoutDTO> items,
         List<PaymentMethodCheckoutDTO> payment_methods,
-        String redirect_url,
+        String redirect_uri,
         List<String> notification_urls,
         List<String> payment_notification_urls
 ){}

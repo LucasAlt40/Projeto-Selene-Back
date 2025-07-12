@@ -1,5 +1,6 @@
 package br.selene.projectseleneback.infra.services;
 
+import br.selene.projectseleneback.domain.checkout.Checkout;
 import br.selene.projectseleneback.domain.checkout.service.ICheckoutService;
 import br.selene.projectseleneback.domain.order.ItemOrder;
 import br.selene.projectseleneback.domain.order.Order;
@@ -29,7 +30,7 @@ public class OrderService implements IOrderService {
 
     @Override
     @Transactional
-    public Order create(RequestCreateOrderDTO request) {
+    public ResponseOrderDTO create(RequestCreateOrderDTO request) {
 
         Order order = new Order();
         order.setCustomerId(request.customerId());
@@ -53,10 +54,11 @@ public class OrderService implements IOrderService {
 
         var createdOrder = orderRepository.save(order);
 
-        checkoutService.createCheckout(createdOrder);
+       var checkout = checkoutService.createCheckout(createdOrder);
 
-        return createdOrder;
+        return new ResponseOrderDTO(createdOrder,checkout);
     }
+
 
     @Override
     public void createItems(List<CreateTicketDTO> tickets) {
@@ -68,3 +70,4 @@ public class OrderService implements IOrderService {
 
     }
 }
+
