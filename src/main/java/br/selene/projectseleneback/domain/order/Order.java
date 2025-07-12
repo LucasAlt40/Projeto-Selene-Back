@@ -64,7 +64,8 @@ public class Order {
 
 	public double getTotalPrice() {
 		return this.items.stream()
-				.map(item -> item.getPrice())
-				.reduce( 0.0, (a, b) -> a + b);
+				.mapToDouble(ItemOrder::getPrice) // evita autoboxing de Double
+				.sum();
 	}
+
 }

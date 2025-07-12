@@ -27,7 +27,7 @@ public class ItemOrder {
 		this.eventId = eventId;
 		this.quantity = quantity;
 		this.createdAt = createdAt;
-		this.itemName = STR."\{eventName}_\{ticketCategoryName}";
+		this.itemName = eventName + "_" + ticketCategoryName;
 		this.imageUrl = imageUrl;
 	}
 
