@@ -108,8 +108,9 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
     private void createCheckout(Checkout checkout) {
         jdbc.update(
-                "INSERT INTO tb_checkout_order (id_order, payment_link, status, payment_status) " +
-                        "VALUES (?, ?, ?, ?)",
+                "INSERT INTO tb_checkout_order (id, id_order, payment_link, status, payment_status) " +
+                        "VALUES (?, ?, ?, ?, ?)",
+                checkout.getId(),
                 checkout.getOrder(),
                 checkout.getPaymentLink(),
                 checkout.getStatus().name(),
@@ -121,16 +122,6 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
         StringBuilder sql = new StringBuilder("UPDATE tb_checkout_order SET ");
         List<Object> params = new ArrayList<>();
         List<String> fields = new ArrayList<>();
-
-        if (checkout.getOrder() >= 0 ) {
-            fields.add("id_order = ?");
-            params.add(checkout.getOrder());
-        }
-
-        if (checkout.getPaymentLink() != null && !checkout.getPaymentLink().isBlank()) {
-            fields.add("payment_link = ?");
-            params.add(checkout.getPaymentLink());
-        }
 
         if (checkout.getStatus() != null) {
             fields.add("status = ?");

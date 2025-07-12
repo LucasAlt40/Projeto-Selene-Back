@@ -19,12 +19,12 @@ public class OrderToRequestCheckout {
         var items = order.getItems();
 
 
-        var customerDto =  new CustomerCheckoutDTO(customer.getName(), customer.getEmail(), customer.getDocument(),  new PhoneCustomerCheckoutDTO(splitPhone[0], splitPhone[1], splitPhone[2]));
+        var customerDto =  new CustomerCheckoutDTO(customer.getName(), customer.getEmail(), customer.getDocument(), new PhoneCustomerCheckoutDTO(splitPhone[0], splitPhone[1], splitPhone[2]));
 
         List<ItemsCheckoutDTO> itemOrders = new ArrayList<>();
-//        items.forEach(item -> {
-//            itemOrders.add(new ItemsCheckoutDTO(item.getItemName(), item.getQuantity(), item.getPrice(), item.getImageUrl()));
-//        });
+        items.forEach(item -> {
+            itemOrders.add(new ItemsCheckoutDTO(item.getTicketCategoryDescription(), item.getTicketCategoryQuantity(), item.getTicketCategoryPrice(), ""));
+        });
 
         List<PaymentMethodCheckoutDTO> paymentMethodOrders = new ArrayList<>();
 

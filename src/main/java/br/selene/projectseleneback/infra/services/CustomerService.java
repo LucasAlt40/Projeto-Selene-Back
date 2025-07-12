@@ -48,7 +48,7 @@ public class CustomerService {
 	}
 
 	public Customer findById(Long customerId) {
-		return  new Customer();
+		return customerRepository.findById(customerId);
 	}
 	
 }

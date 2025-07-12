@@ -1,5 +1,6 @@
 package br.selene.projectseleneback.infra.services;
 
+import br.selene.projectseleneback.domain.checkout.service.ICheckoutService;
 import br.selene.projectseleneback.domain.order.ItemOrder;
 import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.OrderStatusEnum;
@@ -18,10 +19,12 @@ import java.util.List;
 public class OrderService implements IOrderService {
     IOrderRepository orderRepository;
     ITicketCategoryRepository ticketCategoryRepository;
+    ICheckoutService checkoutService;
 
-    public OrderService(IOrderRepository orderRepository, ITicketCategoryRepository ticketCategoryRepository) {
+    public OrderService(IOrderRepository orderRepository, ITicketCategoryRepository ticketCategoryRepository, ICheckoutService checkoutService) {
         this.orderRepository = orderRepository;
         this.ticketCategoryRepository = ticketCategoryRepository;
+        this.checkoutService = checkoutService;
     }
 
     @Override
@@ -48,7 +51,11 @@ public class OrderService implements IOrderService {
 
         order.setItems(items);
 
-        return orderRepository.save(order);
+        var createdOrder = orderRepository.save(order);
+
+        checkoutService.createCheckout(createdOrder);
+
+        return createdOrder;
     }
 
     @Override

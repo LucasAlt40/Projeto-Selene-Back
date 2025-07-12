@@ -1,6 +1,7 @@
 package br.selene.projectseleneback.infra.services;
 
 import br.selene.projectseleneback.domain.checkout.Checkout;
+import br.selene.projectseleneback.domain.checkout.PaymentCheckoutStatusEnum;
 import br.selene.projectseleneback.domain.checkout.dto.ResponseCreateCheckoutDTO;
 import br.selene.projectseleneback.domain.checkout.repository.ICheckoutRepository;
 import br.selene.projectseleneback.domain.checkout.service.ICheckoutService;
@@ -46,7 +47,7 @@ public class CheckoutService implements ICheckoutService {
 
         Customer customer = customerService.findById(order.getCustomerId());
 
-        var requestCheckout = OrderToRequestCheckout.from(order, customer,redirectUrl, List.of(notificationUrls), List.of(payment_notification_urls));
+        var requestCheckout = OrderToRequestCheckout.from(order, customer, redirectUrl, List.of(notificationUrls), List.of(payment_notification_urls));
 
         var response = webClient.post()
                 .uri("/checkouts")
@@ -56,7 +57,7 @@ public class CheckoutService implements ICheckoutService {
                 .block()
         ;
 
-        var checkout = checkoutRepository.save(new Checkout(response.id(),order.getId(), response.linkCheckout(), response.status(), null ));
+        var checkout = checkoutRepository.save(new Checkout(response.id(), order.getId(), response.linkCheckout(), response.status(), PaymentCheckoutStatusEnum.WAITING ));
 
         return new ResponseCreateCheckoutDTO(response.id(), response.linkCheckout(), response.status());
     }
