@@ -1,5 +1,6 @@
 package br.selene.projectseleneback.infra.services;
 
+import br.selene.projectseleneback.infra.exception.TicketOperationException;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
@@ -49,14 +50,20 @@ public class TicketCategoryService implements ITicketCategoryService {
 	}
 
 	@Override
-	public Boolean reserveTicket(Long ticketCategoryId, int quantity) {
-		return ticketCategoryRepository.reserveTicket(ticketCategoryId, quantity);
+	public void reserveTicket(Long ticketCategoryId, int quantity) {
+		boolean updated = ticketCategoryRepository.reserveTicket(ticketCategoryId, quantity);
+		if (!updated) {
+			throw new TicketOperationException("Não foi possível reservar ticket, limite excedido ou esgotado");
+		}
 	}
-
 
 	@Override
-	public Boolean releaseTicket(Long ticketCategoryId, int quantity) {
-		return ticketCategoryRepository.releaseTicket(ticketCategoryId, quantity);
+	public void releaseTicket(Long ticketCategoryId, int quantity) {
+		boolean updated = ticketCategoryRepository.releaseTicket(ticketCategoryId, quantity);
+		if (!updated) {
+			throw new TicketOperationException("Não foi possível liberar ticket, limite máximo excedido");
+		}
 	}
+
 
 }

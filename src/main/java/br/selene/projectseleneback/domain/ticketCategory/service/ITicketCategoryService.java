@@ -1,5 +1,6 @@
 package br.selene.projectseleneback.domain.ticketCategory.service;
 
+import br.selene.projectseleneback.infra.exception.TicketOperationException;
 import org.springframework.data.domain.Page;
 
 import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
@@ -11,6 +12,6 @@ public interface ITicketCategoryService {
 	Page<TicketCategory> findAll(SearchTicketCategoryDTO searchTicketCategoryDTO);
 	TicketCategory create(CreateTicketCategoryDTO createTicketCategoryDTO);
 	TicketCategory update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO);
-	Boolean reserveTicket(Long ticketCategoryId, int quantity);
-	Boolean releaseTicket(Long ticketCategoryId, int quantity);
+	void reserveTicket(Long ticketCategoryId, int quantity) throws TicketOperationException;
+	void releaseTicket(Long ticketCategoryId, int quantity)  throws TicketOperationException;
 }
