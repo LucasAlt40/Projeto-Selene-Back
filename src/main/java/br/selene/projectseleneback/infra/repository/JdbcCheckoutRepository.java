@@ -6,6 +6,7 @@ import br.selene.projectseleneback.domain.checkout.PaymentCheckoutStatusEnum;
 import br.selene.projectseleneback.domain.checkout.repository.ICheckoutRepository;
 import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -59,33 +60,37 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
         String sql = "SELECT id, id_order, payment_link, status, payment_status " +
                 "FROM tb_checkout_order WHERE id = ?";
 
-        return jdbc.queryForObject(sql, (rs, rowNum) -> {
-            int orderId = rs.getInt("id_order");
-            Order order = this.orderRepository.findById(orderId);
-            String status = rs.getString("status");
-            CheckoutStatusEnum statusEnum = status != null ? CheckoutStatusEnum.valueOf(status) : null;
+       try {
+           return jdbc.queryForObject(sql, (rs, rowNum) -> {
+               int orderId = rs.getInt("id_order");
+               Order order = this.orderRepository.findById(orderId);
+               String status = rs.getString("status");
+               CheckoutStatusEnum statusEnum = status != null ? CheckoutStatusEnum.valueOf(status) : null;
 
-            return new Checkout(
-                    rs.getString("id"),
-                    order.getId(),
-                    rs.getString("payment_link"),
-                    statusEnum,
-                    PaymentCheckoutStatusEnum.valueOf(rs.getString("payment_status"))
-            );
-        }, checkoutId);
+               return new Checkout(
+                       rs.getString("id"),
+                       order.getId(),
+                       rs.getString("payment_link"),
+                       statusEnum,
+                       PaymentCheckoutStatusEnum.valueOf(rs.getString("payment_status"))
+               );
+           }, checkoutId);
+       } catch (DataAccessException ex) {
+           return  null;
+       }
     }
 
 
     @Override
     public Checkout save(Checkout checkout) {
         String checkoutId = checkout.getId();
+        var existedCheckout = findById(checkoutId);
 
-        if (checkoutId == null || checkoutId.isBlank()) {
+        if (existedCheckout == null) {
             createCheckout(checkout);
             return checkout;
         }
 
-        updateCheckout(checkout);
         return checkout;
     }
 

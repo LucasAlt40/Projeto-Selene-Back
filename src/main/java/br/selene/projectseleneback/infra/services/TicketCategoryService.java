@@ -23,22 +23,19 @@ public class TicketCategoryService implements ITicketCategoryService {
 		this.ticketCategoryRepository = ticketCategoryRepository;
 	}
 
+	@Override
 	public Page<TicketCategoryDTO> findAll(SearchTicketCategoryDTO searchTicketCategoryDTO) {
-	    Page<TicketCategory> page = ticketCategoryRepository.findAll(searchTicketCategoryDTO);
+		Page<TicketCategory> page = ticketCategoryRepository.findAll(searchTicketCategoryDTO);
 
-	    List<TicketCategoryDTO> ticketCategoriesDTO = page.getContent().stream()
-	        .map(TicketCategoryDTO::new)
-	        .toList();
+		List<TicketCategoryDTO> ticketCategoriesDTO = page.getContent().stream().map(TicketCategoryDTO::new).toList();
 
-	    Page<TicketCategoryDTO> pageDTO = new PageImpl<>(
-	        ticketCategoriesDTO,
-	        page.getPageable(),
-	        page.getTotalElements()
-	    );
+		Page<TicketCategoryDTO> pageDTO = new PageImpl<>(ticketCategoriesDTO, page.getPageable(),
+				page.getTotalElements());
 
-	    return pageDTO;
+		return pageDTO;
 	}
 
+	@Override
 	public TicketCategoryDTO create(CreateTicketCategoryDTO createTicketCategoryDTO) {
 		TicketCategory newTicketCategory = new TicketCategory();
 
@@ -50,6 +47,8 @@ public class TicketCategoryService implements ITicketCategoryService {
 		return new TicketCategoryDTO(ticketCategoryRepository.save(newTicketCategory));
 	}
 
+
+	@Override
 	public TicketCategoryDTO update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO) {
 		TicketCategory newTicketCategory = new TicketCategory();
 
@@ -62,8 +61,14 @@ public class TicketCategoryService implements ITicketCategoryService {
 		return new TicketCategoryDTO(ticketCategoryRepository.save(newTicketCategory));
 	}
 
-	// TODO implementar
-	public void reserveTicket(Long ticketCategoryId, int quantity) {
-		return;
+	@Override
+	public Boolean reserveTicket(Long ticketCategoryId, int quantity) {
+		return ticketCategoryRepository.reserveTicket(ticketCategoryId, quantity);
 	}
+
+	@Override
+	public Boolean releaseTicket(Long ticketCategoryId, int quantity) {
+		return ticketCategoryRepository.releaseTicket(ticketCategoryId, quantity);
+	}
+
 }

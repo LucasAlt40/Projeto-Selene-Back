@@ -2,8 +2,7 @@ package br.selene.projectseleneback.presentation;
 
 import br.selene.projectseleneback.domain.order.dto.RequestCreateOrderDTO;
 import br.selene.projectseleneback.domain.order.service.IOrderService;
-import br.selene.projectseleneback.infra.services.ResponseOrderDTO;
-
+import br.selene.projectseleneback.domain.order.dto.ResponseOrderDTO;
 import org.springframework.web.bind.annotation.*;
 
 @RestController()
