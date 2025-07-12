@@ -64,7 +64,7 @@ public class Order {
 
 	public Long getTotalPrice() {
 		return this.items.stream()
-				.mapToLong(ItemOrder::getTicketCategoryPrice)
+				.mapToLong(item -> item.getTicketCategoryPrice() * item.getTicketCategoryQuantity())
 				.sum();
 	}
 
