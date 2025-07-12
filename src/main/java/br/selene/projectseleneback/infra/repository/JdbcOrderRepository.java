@@ -64,7 +64,7 @@ public class JdbcOrderRepository implements IOrderRepository {
     }
 
     private KeyHolder createOrderHeader(Order order) {
-        String sql = "INSERT INTO tb_header_order (customer_id, total_price, status) VALUES (?, ?, ?)";
+        final String sql = "INSERT INTO tb_header_order (customer_id, total_price, status) VALUES (?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -72,7 +72,9 @@ public class JdbcOrderRepository implements IOrderRepository {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setLong(1, order.getCustomerId());
             ps.setLong(2, order.getTotalPrice());
-            ps.setString(3, OrderStatusEnum.WAITING_PAYMENT.name());
+            ps.setString(3,
+                    order.getStatus() != null ? order.getStatus().name() : OrderStatusEnum.WAITING_PAYMENT.name()
+            );
             return ps;
         }, keyHolder);
 

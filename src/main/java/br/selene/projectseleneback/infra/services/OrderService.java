@@ -1,12 +1,10 @@
 package br.selene.projectseleneback.infra.services;
 
-import br.selene.projectseleneback.domain.checkout.Checkout;
 import br.selene.projectseleneback.domain.checkout.service.ICheckoutService;
 import br.selene.projectseleneback.domain.order.ItemOrder;
 import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.OrderStatusEnum;
-import br.selene.projectseleneback.domain.order.dto.CreateTicketDTO;
-import br.selene.projectseleneback.domain.order.dto.RequestCreateOrderDTO;
+import br.selene.projectseleneback.domain.order.dto.*;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
 import br.selene.projectseleneback.domain.order.service.IOrderService;
 import br.selene.projectseleneback.domain.ticketCategory.repository.ITicketCategoryRepository;
@@ -34,9 +32,9 @@ public class OrderService implements IOrderService {
 
         Order order = new Order();
         order.setCustomerId(request.customerId());
+        order.setStatus(OrderStatusEnum.WAITING_PAYMENT);
 
         List<ItemOrder> items = new ArrayList<>();
-
 
         for (CreateTicketDTO ticket : request.tickets()) {
             var ticketCategory = ticketCategoryRepository.findById(ticket.categoryId());
@@ -54,9 +52,22 @@ public class OrderService implements IOrderService {
 
         var createdOrder = orderRepository.save(order);
 
-       var checkout = checkoutService.createCheckout(createdOrder);
+        var checkout = checkoutService.createCheckout(createdOrder);
 
-        return new ResponseOrderDTO(createdOrder,checkout);
+        OrderDTO orderDTO = new OrderDTO(
+                createdOrder.getId(),
+                createdOrder.getItems().stream().map(item ->
+                        new ItemOrderDTO(
+                                item.getTicketCategoryDescription(),
+                                item.getTicketCategoryQuantity(),
+                                item.getEventId(),
+                                item.getTicketCategoryPrice()
+                        )
+                ).toList(),
+                createdOrder.getStatus().name()
+        );
+
+        return new ResponseOrderDTO(orderDTO, checkout);
     }
 
 

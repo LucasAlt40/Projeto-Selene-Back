@@ -42,7 +42,7 @@ public class CheckoutService implements ICheckoutService {
 
     public CheckoutService(WebClient.Builder builder, ICheckoutRepository checkoutRepository, CustomerService customerService, TicketCategoryService ticketCategoryService) {
         this.webClient = builder.baseUrl("https://sandbox.api.pagseguro.com")
-                .defaultHeader("Authorization", "BEARER " + )
+                .defaultHeader("Authorization", "Bearer <TOKEN>")
                 .build();
         this.checkoutRepository = checkoutRepository;
         this.customerService = customerService;
@@ -53,30 +53,22 @@ public class CheckoutService implements ICheckoutService {
 
         Customer customer = customerService.findById(order.getCustomerId());
 
-        System.out.println(bearerToken);
-        System.out.println(redirectUrl);
-
         var requestCheckout = OrderToRequestCheckout.from(order, customer, redirectUrl, List.of(notificationUrls), List.of(payment_notification_urls));
 
-        System.out.println(requestCheckout.toString());
         try {
             var response = webClient.post()
                     .uri("/checkouts")
                     .bodyValue(requestCheckout)
                     .retrieve()
                     .bodyToMono(ResponseCreateCheckoutDTO.class)
-                    .block()
-            ;
+                    .block();
 
             Optional<ResponseLinksDTO> payLink = response.links().stream()
                     .filter(link -> "PAY".equalsIgnoreCase(link.rel()))
                     .findFirst();
 
-
-
            checkoutRepository.save(new Checkout(response.id(), order.getId(), payLink.get().href(), response.status(), PaymentCheckoutStatusEnum.WAITING ));
 
-            System.out.println(response.toString());
             return new ResponseCreateCheckoutDTO(response.id(), response.links(), response.status());
         }catch (Exception ex) {
             ex.printStackTrace();
@@ -105,15 +97,4 @@ public class CheckoutService implements ICheckoutService {
         return checkoutRepository.findCheckoutsByOrderId(orderId);
     }
 
-//    public Mono<ResponseGatewayDTO> criarCheckout(RequestGatewayDTO request) throws JsonProcessingException {
-//
-//        String jsonBody = objectMapper.writeValueAsString(request);
-//        System.out.println("Body que será enviado: " + jsonBody);
-//
-//        return webClient.post()
-//                .uri("/checkouts")
-//                .bodyValue(request)
-//                .retrieve()
-//                .bodyToMono(ResponseGatewayDTO.class);
-//    }
 }

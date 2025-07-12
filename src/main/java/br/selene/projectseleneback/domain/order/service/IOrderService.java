@@ -1,10 +1,9 @@
 package br.selene.projectseleneback.domain.order.service;
 
-import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.dto.CreateTicketDTO;
 import br.selene.projectseleneback.domain.order.dto.RequestCreateOrderDTO;
 import br.selene.projectseleneback.domain.order.OrderStatusEnum;
-import br.selene.projectseleneback.infra.services.ResponseOrderDTO;
+import br.selene.projectseleneback.domain.order.dto.ResponseOrderDTO;
 
 import java.util.List;
 

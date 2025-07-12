@@ -1,9 +1,8 @@
 package br.selene.projectseleneback.presentation;
 
-import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.dto.RequestCreateOrderDTO;
 import br.selene.projectseleneback.domain.order.service.IOrderService;
-import br.selene.projectseleneback.infra.services.ResponseOrderDTO;
+import br.selene.projectseleneback.domain.order.dto.ResponseOrderDTO;
 import br.selene.projectseleneback.presentation.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
