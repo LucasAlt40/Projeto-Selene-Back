@@ -20,10 +20,12 @@ public class TicketCategoryService implements ITicketCategoryService {
 		this.ticketCategoryRepository = ticketCategoryRepository;
 	}
 
+	@Override
 	public Page<TicketCategory> findAll(@Valid SearchTicketCategoryDTO searchTicketCategoryDTO) {
 		return ticketCategoryRepository.findAll(searchTicketCategoryDTO);
 	}
 
+	@Override
 	public TicketCategory create(CreateTicketCategoryDTO createTicketCategoryDTO) {
 		TicketCategory newTicketCategory = new TicketCategory();
 
@@ -34,6 +36,7 @@ public class TicketCategoryService implements ITicketCategoryService {
 		return ticketCategoryRepository.save(newTicketCategory);
 	}
 
+	@Override
 	public TicketCategory update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO) {
 		TicketCategory newTicketCategory = new TicketCategory();
 
@@ -45,8 +48,15 @@ public class TicketCategoryService implements ITicketCategoryService {
 		return ticketCategoryRepository.save(newTicketCategory);
 	}
 
-	// TODO implementar
-	public void reserveTicket(Long ticketCategoryId, int quantity) {
-		return;
+	@Override
+	public Boolean reserveTicket(Long ticketCategoryId, int quantity) {
+		return ticketCategoryRepository.reserveTicket(ticketCategoryId, quantity);
 	}
+
+
+	@Override
+	public Boolean releaseTicket(Long ticketCategoryId, int quantity) {
+		return ticketCategoryRepository.releaseTicket(ticketCategoryId, quantity);
+	}
+
 }

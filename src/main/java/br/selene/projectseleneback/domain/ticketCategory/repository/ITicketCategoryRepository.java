@@ -7,10 +7,10 @@ import org.springframework.data.domain.Page;
 
 public interface ITicketCategoryRepository {
 
-	public TicketCategory save(TicketCategory ticketCategory);
-
-	public Page<TicketCategory> findAll(SearchTicketCategoryDTO searchTicketCategoryDTO);
-
-	public TicketCategory findById(Long ticketCategoryId);
+	TicketCategory save(TicketCategory ticketCategory);
+	Page<TicketCategory> findAll(SearchTicketCategoryDTO searchTicketCategoryDTO);
+	TicketCategory findById(Long ticketCategoryId);
+	Boolean reserveTicket(Long ticketCategoryId, int quantity);
+	Boolean releaseTicket(Long ticketCategoryId, int quantity);
 
 }

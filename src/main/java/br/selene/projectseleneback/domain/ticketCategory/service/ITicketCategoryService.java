@@ -8,13 +8,9 @@ import br.selene.projectseleneback.domain.ticketCategory.dto.SearchTicketCategor
 import br.selene.projectseleneback.domain.ticketCategory.dto.UpdateTicketCategoryDTO;
 
 public interface ITicketCategoryService {
-
-	public Page<TicketCategory> findAll(SearchTicketCategoryDTO searchTicketCategoryDTO);
-
-	public TicketCategory create(CreateTicketCategoryDTO createTicketCategoryDTO);
-
-	public TicketCategory update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO);
-	
-	public void reserveTicket(Long ticketCategoryId, int quantity);
-
+	Page<TicketCategory> findAll(SearchTicketCategoryDTO searchTicketCategoryDTO);
+	TicketCategory create(CreateTicketCategoryDTO createTicketCategoryDTO);
+	TicketCategory update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO);
+	Boolean reserveTicket(Long ticketCategoryId, int quantity);
+	Boolean releaseTicket(Long ticketCategoryId, int quantity);
 }
