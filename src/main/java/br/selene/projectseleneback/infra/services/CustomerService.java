@@ -8,9 +8,10 @@ import br.selene.projectseleneback.domain.customer.dto.CreateCustomerDTO;
 import br.selene.projectseleneback.domain.customer.dto.SearchCustomerDTO;
 import br.selene.projectseleneback.domain.customer.dto.UpdateCustomerDTO;
 import br.selene.projectseleneback.domain.customer.repository.ICustomerRepository;
+import br.selene.projectseleneback.domain.customer.service.ICustomerService;
 
 @Service
-public class CustomerService {
+public class CustomerService implements ICustomerService {
 	
 	private final ICustomerRepository customerRepository;
 	
