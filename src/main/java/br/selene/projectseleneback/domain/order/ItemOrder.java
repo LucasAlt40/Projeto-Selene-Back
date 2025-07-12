@@ -4,31 +4,46 @@ import java.time.LocalDateTime;
 
 public class ItemOrder {
 
-	private int id;
-	private String itemName;
-	private int ticketCategoryId;
+	private Long orderId;
+	private Long ticketCategoryId;
+	private Long ticketCategoryPrice;
 	private String ticketCategoryDescription;
-	private long ticketCategoryPrice;
 	private int ticketCategoryQuantity;
-	private int eventId;
-	private int quantity;
-	private long price;
-	private String imageUrl;
+	private Long eventId;
 
-	private LocalDateTime createdAt;
+	public ItemOrder() {}
 
-	public ItemOrder() {
+	public ItemOrder(Long orderId, Long ticketCategoryId, Long ticketCategoryPrice, String ticketCategoryDescription, int ticketCategoryQuantity, Long eventId) {
+		this.orderId = orderId;
+		this.ticketCategoryId = ticketCategoryId;
+		this.ticketCategoryPrice = ticketCategoryPrice;
+		this.ticketCategoryDescription = ticketCategoryDescription;
+		this.ticketCategoryQuantity = ticketCategoryQuantity;
+		this.eventId = eventId;
 	}
 
-	public ItemOrder(int id, int ticketCategoryId, int eventId, int quantity, LocalDateTime createdAt, String eventName, String ticketCategoryName, String imageUrl) {
-		super();
-		this.id = id;
+	public Long getOrderId() {
+		return orderId;
+	}
+
+	public void setOrderId(Long orderId) {
+		this.orderId = orderId;
+	}
+
+	public Long getTicketCategoryId() {
+		return ticketCategoryId;
+	}
+
+	public void setTicketCategoryId(Long ticketCategoryId) {
 		this.ticketCategoryId = ticketCategoryId;
-		this.eventId = eventId;
-		this.quantity = quantity;
-		this.createdAt = createdAt;
-		this.itemName = eventName + "_" + ticketCategoryName;
-		this.imageUrl = imageUrl;
+	}
+
+	public Long getTicketCategoryPrice() {
+		return ticketCategoryPrice;
+	}
+
+	public void setTicketCategoryPrice(Long ticketCategoryPrice) {
+		this.ticketCategoryPrice = ticketCategoryPrice;
 	}
 
 	public String getTicketCategoryDescription() {
@@ -39,14 +54,6 @@ public class ItemOrder {
 		this.ticketCategoryDescription = ticketCategoryDescription;
 	}
 
-	public long getTicketCategoryPrice() {
-		return ticketCategoryPrice;
-	}
-
-	public void setTicketCategoryPrice(long ticketCategoryPrice) {
-		this.ticketCategoryPrice = ticketCategoryPrice;
-	}
-
 	public int getTicketCategoryQuantity() {
 		return ticketCategoryQuantity;
 	}
@@ -55,68 +62,11 @@ public class ItemOrder {
 		this.ticketCategoryQuantity = ticketCategoryQuantity;
 	}
 
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
-	public String getItemName() {
-		return itemName;
-	}
-
-	public void setItemName(String itemName) {
-		this.itemName = itemName;
-	}
-
-	public long getPrice() {
-		return price;
-	}
-
-	public void setPrice(long price) {
-		this.price = price;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getTicketCategoryId() {
-		return ticketCategoryId;
-	}
-
-	public void setTicketCategoryId(int ticketCategoryId) {
-		this.ticketCategoryId = ticketCategoryId;
-	}
-
-	public int getEventId() {
+	public Long getEventId() {
 		return eventId;
 	}
 
-	public void setEventId(int eventId) {
+	public void setEventId(Long eventId) {
 		this.eventId = eventId;
 	}
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public int getQuantity() {
-		return quantity;
-	}
-
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
-	}
-
 }

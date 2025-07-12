@@ -1,7 +1,11 @@
 package br.selene.projectseleneback.domain.order;
 
 public enum OrderStatusEnum {
-    EXPIRED("EXPIRED"), CANCELLED("CANCELLED"), COMPLETED("COMPLETED"), PROCESSING("PROCESSING");
+    WAITING_PAYMENT("WAITING_PAYMENT"),
+    EXPIRED("EXPIRED"),
+    CANCELLED("CANCELLED"),
+    COMPLETED("COMPLETED"),
+    PROCESSING("PROCESSING");
 
     private final String name;
 

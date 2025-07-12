@@ -44,7 +44,7 @@ public class CheckoutService implements ICheckoutService {
     @Override
     public ResponseCreateCheckoutDTO createCheckout(Order order) {
 
-        Customer customer = customerService.findById(order.getCustomer());
+        Customer customer = customerService.findById(order.getCustomerId());
 
         var requestCheckout = OrderToRequestCheckout.from(order, customer,redirectUrl, List.of(notificationUrls), List.of(payment_notification_urls));
 

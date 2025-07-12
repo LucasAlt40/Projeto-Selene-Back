@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class TicketCategory {
 
 	private Long id;
-	private int price;
+	private Long price;
 	private String description;
 	private int quantity;
 	private LocalDateTime createdAt;
@@ -14,7 +14,7 @@ public class TicketCategory {
 	public TicketCategory() {
 	}
 
-	public TicketCategory(Long id, int price, String description, int quantity, LocalDateTime createdAt,
+	public TicketCategory(Long id, Long price, String description, int quantity, LocalDateTime createdAt,
 			int quantityAvaliable) {
 		this.id = id;
 		this.price = price;
@@ -32,11 +32,11 @@ public class TicketCategory {
 		this.id = id;
 	}
 
-	public int getPrice() {
+	public Long getPrice() {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(Long price) {
 		this.price = price;
 	}
 

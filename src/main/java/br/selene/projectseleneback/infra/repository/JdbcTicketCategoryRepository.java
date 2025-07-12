@@ -62,7 +62,7 @@ public class JdbcTicketCategoryRepository implements ITicketCategoryRepository {
 	private TicketCategory mapRow(ResultSet rs, int rowNum) throws SQLException {
 		return new TicketCategory(
 				rs.getLong("id"),
-				rs.getInt("price"),
+				rs.getLong("price"),
 				rs.getString("description"),
 				rs.getInt("quantity"),
 				DateHelper.convertDateToLocalDateTime(rs.getTimestamp("created_at")),

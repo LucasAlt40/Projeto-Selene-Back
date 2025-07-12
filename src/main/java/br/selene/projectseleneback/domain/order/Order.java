@@ -30,11 +30,11 @@ public class Order {
 		this.id = id;
 	}
 
-	public Long getCustomer() {
+	public Long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomer(Long customerId) {
+	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
 
@@ -62,9 +62,9 @@ public class Order {
 		this.items = items;
 	}
 
-	public double getTotalPrice() {
+	public Long getTotalPrice() {
 		return this.items.stream()
-				.mapToDouble(ItemOrder::getPrice) // evita autoboxing de Double
+				.mapToLong(ItemOrder::getTicketCategoryPrice)
 				.sum();
 	}
 

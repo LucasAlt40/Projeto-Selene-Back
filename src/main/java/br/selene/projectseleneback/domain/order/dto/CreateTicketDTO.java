@@ -1,8 +1,8 @@
 package br.selene.projectseleneback.domain.order.dto;
 
 public record CreateTicketDTO(
-        int eventId,
-        int categoryId,
+        Long eventId,
+        Long categoryId,
         int quantity
 ){
     

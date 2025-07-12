@@ -1,4 +1,4 @@
 package br.selene.projectseleneback.domain.ticketCategory.dto;
 
-public record UpdateTicketCategoryDTO (int price, String description, int quantity){
+public record UpdateTicketCategoryDTO (Long price, String description, int quantity){
 }

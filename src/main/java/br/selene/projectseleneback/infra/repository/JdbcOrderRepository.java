@@ -6,10 +6,14 @@ import br.selene.projectseleneback.domain.order.OrderStatusEnum;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
 import br.selene.projectseleneback.infra.utils.DateHelper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,46 +36,64 @@ public class JdbcOrderRepository implements IOrderRepository {
 
     @Override
     public Order save(Order order) {
+        KeyHolder keyHolder = createOrderHeader(order);
 
-        Long orderId = order.getId();
-
-        if (orderId != 0) {
-            // TODO fazer update
+        Number generatedId = (Number) keyHolder.getKeys().get("id");
+        if (generatedId != null) {
+            order.setId(generatedId.longValue());
         }
 
-        createOrderHeader(order);
-        createOrderItems(order);
+        createOrderItems(order.getItems(), order.getId());
 
         return order;
     }
 
-    private void createOrderHeader(Order order) {
-        jdbc.update(
-                "INSERT INTO tb_header_order (id, customer_id, total_price, status, created_at)" + "values (?,?,?,?,?)",
-                order.getId(),
-                order.getCustomer(),
-                order.getTotalPrice(),
-                order.getStatus(),
-                order.getCreatedAt()
-        );
+    @Override
+    public List<Order> findAllByEvent(int eventId) {
+        return List.of();
     }
 
-    private void createOrderItems(Order order) {
-        var itemOrders = order.getItems();
-        itemOrders.forEach(itemOrder -> {
+    @Override
+    public List<Order> findAllByCustomer(int customerId) {
+        return List.of();
+    }
+
+    @Override
+    public List<Order> findAll() {
+        return List.of();
+    }
+
+    private KeyHolder createOrderHeader(Order order) {
+        String sql = "INSERT INTO tb_header_order (customer_id, total_price, status) VALUES (?, ?, ?)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbc.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setLong(1, order.getCustomerId());
+            ps.setLong(2, order.getTotalPrice());
+            ps.setString(3, OrderStatusEnum.WAITING_PAYMENT.name());
+            return ps;
+        }, keyHolder);
+
+        return keyHolder;
+    }
+
+
+    private void createOrderItems(List<ItemOrder> items, Long orderId) {
+        items.forEach(i -> {
             jdbc.update(
-                    "INSERT INTO tb_item_order(order_id, item_id, ticket_category_id, ticket_category_price, ticket_category_description, ticket_category_quantity) " +
+                    "INSERT INTO tb_item_order (order_id, ticket_category_id, ticket_category_price, ticket_category_description, ticket_category_quantity, event_id) " +
                             "VALUES (?, ?, ?, ?, ?, ?)",
-                    order.getId(),
-                    itemOrder.getId(),
-                    itemOrder.getTicketCategoryId(),
-                    itemOrder.getTicketCategoryPrice(),
-                    itemOrder.getTicketCategoryDescription(),
-                    itemOrder.getTicketCategoryQuantity()
+                    orderId,
+                    i.getTicketCategoryId(),
+                    i.getTicketCategoryPrice(),
+                    i.getTicketCategoryDescription(),
+                    i.getTicketCategoryQuantity(),
+                    i.getEventId()
             );
         });
     }
-
 
     private Order mapOrder(ResultSet rs) throws SQLException {
         String status = rs.getString("status");

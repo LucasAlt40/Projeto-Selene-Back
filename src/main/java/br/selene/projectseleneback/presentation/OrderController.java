@@ -13,6 +13,10 @@ public class OrderController {
 
     IOrderService orderService;
 
+    public OrderController(IOrderService orderService) {
+        this.orderService = orderService;
+    }
+
     @PostMapping
     public ResponseEntity<ApiResponse<Order>> createOrder (@RequestBody RequestCreateOrderDTO request){
         var response = new ApiResponse<>( true, "Pedido realizado com sucesso", orderService.create(request), null);

@@ -8,6 +8,8 @@ import java.util.List;
 public interface IOrderRepository {
 
     Order findById(int orderId);
-    // TODO salvar ordem header e items e atualizar quantidade de tickets disponivel no avaliable
     Order save(Order order);
+    List<Order> findAllByEvent(int eventId);
+    List<Order> findAllByCustomer(int customerId);
+    List<Order> findAll();
 }
