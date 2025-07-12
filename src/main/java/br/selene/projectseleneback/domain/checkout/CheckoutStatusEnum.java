@@ -2,7 +2,7 @@ package br.selene.projectseleneback.domain.checkout;
 
 public enum CheckoutStatusEnum {
 
-	EXPIRED("EXPIRED"), IN_PROCESS("IN_PROCESS");
+	EXPIRED("EXPIRED"), IN_PROCESS("IN_PROCESS"), ACTIVE("ACTIVE");
 
 	private final String name;
 

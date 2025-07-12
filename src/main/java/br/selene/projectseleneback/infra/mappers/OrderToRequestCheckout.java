@@ -14,7 +14,7 @@ public class OrderToRequestCheckout {
 
         // TODO fazer conversão de uma melhor forma
         var phone = customer.getPhone();
-        var splitPhone = phone.split("\\s+");
+        var splitPhone = new String[]{"+55", "16", "996322205"};
 
         var items = order.getItems();
 
