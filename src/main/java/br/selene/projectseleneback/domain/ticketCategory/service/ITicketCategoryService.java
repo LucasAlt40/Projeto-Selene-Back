@@ -6,6 +6,7 @@ import br.selene.projectseleneback.domain.ticketCategory.dto.CreateTicketCategor
 import br.selene.projectseleneback.domain.ticketCategory.dto.SearchTicketCategoryDTO;
 import br.selene.projectseleneback.domain.ticketCategory.dto.TicketCategoryDTO;
 import br.selene.projectseleneback.domain.ticketCategory.dto.UpdateTicketCategoryDTO;
+import br.selene.projectseleneback.infra.exception.TicketOperationException;
 
 public interface ITicketCategoryService {
 	public Page<TicketCategoryDTO> findAll(SearchTicketCategoryDTO searchTicketCategoryDTO);
@@ -14,7 +15,7 @@ public interface ITicketCategoryService {
 
 	public TicketCategoryDTO update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO);
 
-	public Boolean reserveTicket(Long ticketCategoryId, int quantity);
-	
-	public Boolean releaseTicket(Long ticketCategoryId, int quantity);
+	public void reserveTicket(Long ticketCategoryId, int quantity) throws TicketOperationException;
+
+	public void releaseTicket(Long ticketCategoryId, int quantity) throws TicketOperationException;
 }

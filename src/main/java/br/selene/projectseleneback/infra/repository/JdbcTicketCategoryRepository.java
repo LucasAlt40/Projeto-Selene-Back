@@ -77,22 +77,20 @@ public class JdbcTicketCategoryRepository implements ITicketCategoryRepository {
 		String sql = "UPDATE tb_ticket_category " +
 				"SET quantity_available = quantity_available - ? " +
 				"WHERE id = ? AND quantity_available >= ?";
-
 		int rows = jdbc.update(sql, quantity, ticketCategoryId, quantity);
-
 		return rows > 0;
 	}
+
 
 	@Override
 	public Boolean releaseTicket(Long ticketCategoryId, int quantity) {
 		String sql = "UPDATE tb_ticket_category " +
 				"SET quantity_available = quantity_available + ? " +
-				"WHERE id = ?";
-
-		int rows = jdbc.update(sql, quantity, ticketCategoryId);
-
+				"WHERE id = ? AND (quantity_available + ?) <= quantity";
+		int rows = jdbc.update(sql, quantity, ticketCategoryId, quantity);
 		return rows > 0;
 	}
+
 
 
 	private TicketCategory mapRow(ResultSet rs, int rowNum) throws SQLException {
