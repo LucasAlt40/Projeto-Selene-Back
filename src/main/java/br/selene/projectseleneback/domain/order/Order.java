@@ -61,4 +61,11 @@ public class Order {
 	public void setItems(List<ItemOrder> items) {
 		this.items = items;
 	}
+
+	public double getTotalPrice() {
+		return this.items.stream()
+				.mapToDouble(ItemOrder::getPrice) // evita autoboxing de Double
+				.sum();
+	}
+
 }

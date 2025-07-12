@@ -33,6 +33,7 @@ dependencies {
     implementation 'software.amazon.awssdk:s3:2.20.0'
     implementation 'io.jsonwebtoken:jjwt-api:0.12.5'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.5'
@@ -43,8 +44,4 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs.add("-parameters")
 }
