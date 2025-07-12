@@ -3,11 +3,13 @@ package br.selene.projectseleneback.infra.repository;
 import br.selene.projectseleneback.infra.utils.DateHelper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
+import br.selene.projectseleneback.domain.ticketCategory.dto.SearchTicketCategoryDTO;
 import br.selene.projectseleneback.domain.ticketCategory.repository.ITicketCategoryRepository;
 
 import java.sql.ResultSet;
@@ -25,18 +27,28 @@ public class JdbcTicketCategoryRepository implements ITicketCategoryRepository {
     }
 
 	@Override
-	public Page<TicketCategory> findAll(Pageable pageable) {
-		String rowCountSql = "SELECT count(*) AS rowCount " +
-				"FROM tb_ticket_category";
+	public Page<TicketCategory> findAll(SearchTicketCategoryDTO searchTicketCategoryDTO) {
+		Pageable pageable = PageRequest.of(
+		    	Math.max(searchTicketCategoryDTO.getPage() - 1, 0),
+		    	searchTicketCategoryDTO.getPageSize()
+		    );
+		
+		String rowCountSql = "SELECT count(*) FROM tb_ticket_category";
+	    int total = jdbc.queryForObject(rowCountSql, Integer.class);
 
-		int total = jdbc.queryForObject(rowCountSql, Integer.class);
+	    String querySql = """
+		        SELECT id, price, description, quantity, created_at, quantity_available
+		        FROM tb_ticket_category
+		        ORDER BY id
+		        LIMIT ? OFFSET ?
+		    """;
 
-		String querySql = "SELECT id, price, description, quantity, created_at, quantity_available " +
-				"FROM tb_ticket_category " +
-				"LIMIT " + pageable.getPageSize() + " " +
-				"OFFSET " + pageable.getOffset();
-
-		List<TicketCategory> ticketCategories = jdbc.query(querySql, this::mapRow);
+	    List<TicketCategory> ticketCategories = jdbc.query(
+		        querySql,
+		        this::mapRow,
+		        pageable.getPageSize(),
+		        pageable.getOffset()
+		    );
 
 		return new PageImpl<TicketCategory>(ticketCategories, pageable, total);
 	}

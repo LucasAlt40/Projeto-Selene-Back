@@ -28,8 +28,8 @@ public class JdbcCustomerRepository implements ICustomerRepository {
 	@Override
 	public Page<Customer> findAll(SearchCustomerDTO searchCustomerDTO) {
 	    Pageable pageable = PageRequest.of(
-	    	Math.max(searchCustomerDTO.getPage() - 1, 0),
-	        searchCustomerDTO.getPageSize()
+	    	Math.max(searchCustomerDTO.page() - 1, 0),
+	        searchCustomerDTO.pageSize()
 	    );
 
 	    String rowCountSql = "SELECT count(*) FROM tb_customer";
