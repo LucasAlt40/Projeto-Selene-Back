@@ -1,15 +1,18 @@
 package br.selene.projectseleneback.infra.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 
 import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
 import br.selene.projectseleneback.domain.ticketCategory.dto.CreateTicketCategoryDTO;
 import br.selene.projectseleneback.domain.ticketCategory.dto.SearchTicketCategoryDTO;
+import br.selene.projectseleneback.domain.ticketCategory.dto.TicketCategoryDTO;
 import br.selene.projectseleneback.domain.ticketCategory.dto.UpdateTicketCategoryDTO;
 import br.selene.projectseleneback.domain.ticketCategory.repository.ITicketCategoryRepository;
 import br.selene.projectseleneback.domain.ticketCategory.service.ITicketCategoryService;
-import jakarta.validation.Valid;
 
 @Service
 public class TicketCategoryService implements ITicketCategoryService {
@@ -20,29 +23,43 @@ public class TicketCategoryService implements ITicketCategoryService {
 		this.ticketCategoryRepository = ticketCategoryRepository;
 	}
 
-	public Page<TicketCategory> findAll(@Valid SearchTicketCategoryDTO searchTicketCategoryDTO) {
-		return ticketCategoryRepository.findAll(searchTicketCategoryDTO);
+	public Page<TicketCategoryDTO> findAll(SearchTicketCategoryDTO searchTicketCategoryDTO) {
+	    Page<TicketCategory> page = ticketCategoryRepository.findAll(searchTicketCategoryDTO);
+
+	    List<TicketCategoryDTO> ticketCategoriesDTO = page.getContent().stream()
+	        .map(TicketCategoryDTO::new)
+	        .toList();
+
+	    Page<TicketCategoryDTO> pageDTO = new PageImpl<>(
+	        ticketCategoriesDTO,
+	        page.getPageable(),
+	        page.getTotalElements()
+	    );
+
+	    return pageDTO;
 	}
 
-	public TicketCategory create(CreateTicketCategoryDTO createTicketCategoryDTO) {
+	public TicketCategoryDTO create(CreateTicketCategoryDTO createTicketCategoryDTO) {
 		TicketCategory newTicketCategory = new TicketCategory();
 
 		newTicketCategory.setPrice(createTicketCategoryDTO.price());
 		newTicketCategory.setDescription(createTicketCategoryDTO.description());
 		newTicketCategory.setQuantity(createTicketCategoryDTO.quantity());
+		newTicketCategory.setQuantityAvaliable(createTicketCategoryDTO.quantity());
 
-		return ticketCategoryRepository.save(newTicketCategory);
+		return new TicketCategoryDTO(ticketCategoryRepository.save(newTicketCategory));
 	}
 
-	public TicketCategory update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO) {
+	public TicketCategoryDTO update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO) {
 		TicketCategory newTicketCategory = new TicketCategory();
 
 		newTicketCategory.setId(TicketCategoryId);
 		newTicketCategory.setPrice(updateTicketCategoryDTO.price());
 		newTicketCategory.setDescription(updateTicketCategoryDTO.description());
 		newTicketCategory.setQuantity(updateTicketCategoryDTO.quantity());
+		newTicketCategory.setQuantityAvaliable(updateTicketCategoryDTO.quantity());
 
-		return ticketCategoryRepository.save(newTicketCategory);
+		return new TicketCategoryDTO(ticketCategoryRepository.save(newTicketCategory));
 	}
 
 	// TODO implementar

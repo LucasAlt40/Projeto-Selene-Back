@@ -1,6 +1,5 @@
 package br.selene.projectseleneback.infra.services;
 
-import br.selene.projectseleneback.domain.checkout.Checkout;
 import br.selene.projectseleneback.domain.checkout.service.ICheckoutService;
 import br.selene.projectseleneback.domain.order.ItemOrder;
 import br.selene.projectseleneback.domain.order.Order;
