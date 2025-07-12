@@ -2,26 +2,26 @@ package br.selene.projectseleneback.presentation;
 
 public class MappingEndpoint {
 
-	public static final String FIND = "/buscar";
-	public static final String CREATE = "/cadastrar";
-	public static final String UPDATE = "/editar";
+	public static final String FIND = "/find";
+	public static final String CREATE = "/add";
+	public static final String UPDATE = "/update";
 
 	public class Customer {
 
-		public static final String MAIN = "/usuario";
+		public static final String MAIN = "/customer";
 
 	}
-	
+
 	public class Event {
-		
-		public static final String MAIN = "/evento";
-		
+
+		public static final String MAIN = "/event";
+
 	}
 
 	public class TicketCategory {
 
-		public static final String MAIN = "/categoria-ingresso";
-		
+		public static final String MAIN = "/ticket-category";
+
 	}
 
 }
