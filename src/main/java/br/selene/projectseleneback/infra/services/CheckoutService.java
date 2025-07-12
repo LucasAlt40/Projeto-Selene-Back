@@ -64,14 +64,17 @@ public class CheckoutService implements ICheckoutService {
                     .filter(link -> "PAY".equalsIgnoreCase(link.rel()))
                     .findFirst();
 
-           checkoutRepository.save(new Checkout(response.id(), order.getId(), payLink.get().href(), response.status(), PaymentCheckoutStatusEnum.WAITING ));
+            checkoutRepository.save(new Checkout(response.id(), order.getId(), payLink.get().href(), response.status(), PaymentCheckoutStatusEnum.WAITING ));
 
-            return new ResponseCreateCheckoutDTO(response.id(), response.links(), response.status());
-        }catch (Exception ex) {
+            return new ResponseCreateCheckoutDTO(
+                    response.id(),
+                    payLink.map(List::of).orElse(List.of()),
+                    response.status()
+            );
+        } catch (Exception ex) {
             ex.printStackTrace();
+            return null;
         }
-
-        return null;
     }
 
     @Override
