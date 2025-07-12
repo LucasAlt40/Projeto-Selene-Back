@@ -7,6 +7,8 @@ import br.selene.projectseleneback.domain.checkout.dto.ResponseLinksDTO;
 import br.selene.projectseleneback.domain.checkout.repository.ICheckoutRepository;
 import br.selene.projectseleneback.domain.checkout.service.ICheckoutService;
 import br.selene.projectseleneback.domain.customer.Customer;
+import br.selene.projectseleneback.domain.customer.repository.ICustomerRepository;
+import br.selene.projectseleneback.domain.customer.service.ICustomerService;
 import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.infra.mappers.OrderToRequestCheckout;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,7 +27,7 @@ public class CheckoutService implements ICheckoutService {
 
     private final WebClient webClient;
     private final ICheckoutRepository checkoutRepository;
-    private final CustomerService customerService;
+    private final ICustomerService customerService;
 
     @Value("${app.redirectCheckoutUrl}")
     private String redirectUrl;
@@ -36,11 +38,8 @@ public class CheckoutService implements ICheckoutService {
     @Value("${app.payment_notification_urls}")
     private String payment_notification_urls;
 
-    @Value("${app.bearerToken}")
-    private String bearerToken;
 
-
-    public CheckoutService(WebClient.Builder builder, ICheckoutRepository checkoutRepository, CustomerService customerService, TicketCategoryService ticketCategoryService) {
+    public CheckoutService(WebClient.Builder builder, ICheckoutRepository checkoutRepository, ICustomerService customerService) {
         this.webClient = builder.baseUrl("https://sandbox.api.pagseguro.com")
                 .defaultHeader("Authorization", "Bearer <TOKEN>")
                 .build();
