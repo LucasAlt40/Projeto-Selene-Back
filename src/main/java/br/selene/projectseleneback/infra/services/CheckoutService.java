@@ -64,15 +64,19 @@ public class CheckoutService implements ICheckoutService {
                     .filter(link -> "PAY".equalsIgnoreCase(link.rel()))
                     .findFirst();
 
-           checkoutRepository.save(new Checkout(response.id(), order.getId(), payLink.get().href(), response.status(), PaymentCheckoutStatusEnum.WAITING ));
+            checkoutRepository.save(new Checkout(response.id(), order.getId(), payLink.get().href(), response.status(), PaymentCheckoutStatusEnum.WAITING ));
 
-            return new ResponseCreateCheckoutDTO(response.id(), response.links(), response.status());
-        }catch (Exception ex) {
+            return new ResponseCreateCheckoutDTO(
+                    response.id(),
+                    payLink.map(List::of).orElse(List.of()),
+                    response.status()
+            );
+        } catch (Exception ex) {
             ex.printStackTrace();
+            return null;
         }
-
-        return null;
     }
+
 
     @Override
     public Page<Checkout> findAll(Pageable pageable) {
@@ -94,4 +98,23 @@ public class CheckoutService implements ICheckoutService {
         return checkoutRepository.findCheckoutsByOrderId(orderId);
     }
 
+    @Override
+    public Checkout deleteCheckout(String checkoutId) {
+        return checkoutRepository.findById(checkoutId);
+    }
+
+    @Override
+    public Checkout deleteCheckoutByOrderId(long orderId) {
+        return checkoutRepository.deleteCheckoutByOrderId(  orderId);
+    }
+
+    @Override
+    public Checkout updateCheckoutPaymentStatusByOrderId(long orderId, PaymentCheckoutStatusEnum checkoutStatus) {
+        return checkoutRepository.updateCheckoutPaymentStatusByOrderId(orderId, checkoutStatus);
+    }
+
+    @Override
+    public Checkout updateCheckoutPaymentStatus(String checkoutId, PaymentCheckoutStatusEnum checkoutStatus) {
+        return checkoutRepository.updateCheckoutPaymentStatus(checkoutId, checkoutStatus);
+    }
 }

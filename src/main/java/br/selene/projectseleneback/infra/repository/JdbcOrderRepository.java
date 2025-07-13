@@ -4,7 +4,9 @@ import br.selene.projectseleneback.domain.order.ItemOrder;
 import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.OrderStatusEnum;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
+import br.selene.projectseleneback.infra.exception.OrderOperationException;
 import br.selene.projectseleneback.infra.utils.DateHelper;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -28,9 +30,8 @@ public class JdbcOrderRepository implements IOrderRepository {
     }
 
     @Override
-    public Order findById(int orderId) {
+    public Order findById(long orderId) {
         String orderQuery = "SELECT id, customer_id, total_price, status, created_at FROM tb_header_order WHERE id = ?";
-
         return jdbc.queryForObject(orderQuery, (rs, rowNum) -> mapOrder(rs) , orderId);
     }
 
@@ -59,9 +60,22 @@ public class JdbcOrderRepository implements IOrderRepository {
     }
 
     @Override
-    public List<Order> findAll() {
-        return List.of();
+    public Order deleteById(long orderId) {
+       String sql =
+                "UPDATE tb_header_order\n" +
+                "\tSET status= \n" +
+                OrderStatusEnum.CANCELLED +
+                "\tWHERE id = ?";
+
+      int rows = jdbc.update(sql, orderId);
+
+      if (rows > 0) {
+          return findById(orderId);
+      }
+
+      throw new OrderOperationException("Não foi possível cancelar seu pedido!");
     }
+
 
     private KeyHolder createOrderHeader(Order order) {
         final String sql = "INSERT INTO tb_header_order (customer_id, total_price, status) VALUES (?, ?, ?)";

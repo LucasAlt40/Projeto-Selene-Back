@@ -68,4 +68,10 @@ public class OrderService implements IOrderService {
 	public void updateOrderStatus(OrderStatusEnum status) {
 
 	}
+
+	@Override
+	public Order deleteOrder(int orderId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

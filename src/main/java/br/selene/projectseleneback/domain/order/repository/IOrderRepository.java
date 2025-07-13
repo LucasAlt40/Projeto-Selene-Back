@@ -7,9 +7,9 @@ import java.util.List;
 
 public interface IOrderRepository {
 
-    Order findById(int orderId);
+    Order findById(long orderId);
     Order save(Order order);
     List<Order> findAllByEvent(int eventId);
     List<Order> findAllByCustomer(int customerId);
-    List<Order> findAll();
+    Order deleteById(long orderId);
 }
