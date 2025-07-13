@@ -1,8 +1,10 @@
 package br.selene.projectseleneback.domain.event.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.selene.projectseleneback.domain.event.dto.CreateEventDTO;
 import br.selene.projectseleneback.domain.event.dto.CreateTicketCategoryDTO;
@@ -19,9 +21,9 @@ public interface IEventService {
 	
 	EventDTO findById(Long id);
 	
-	EventDTO createEvent(CreateEventDTO createEventDTO);
+	EventDTO createEvent(CreateEventDTO createEventDTO, MultipartFile file) throws IOException;
 	
-	EventDTO updateEvent(Long eventId, UpdateEventDTO updateEventDTO);
+	EventDTO updateEvent(Long eventId, UpdateEventDTO updateEventDTO, MultipartFile file) throws IOException;
 	
 	List<TicketCategoryDTO> findTicketCategoriesFromEvent(Long eventId);
 

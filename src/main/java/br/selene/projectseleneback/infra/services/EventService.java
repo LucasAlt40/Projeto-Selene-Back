@@ -1,11 +1,14 @@
 package br.selene.projectseleneback.infra.services;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import br.selene.projectseleneback.domain.event.Address;
 import br.selene.projectseleneback.domain.event.Event;
 import br.selene.projectseleneback.domain.event.EventStatusEnum;
@@ -20,14 +23,17 @@ import br.selene.projectseleneback.domain.event.dto.UpdateTicketCategoryDTO;
 import br.selene.projectseleneback.domain.event.repository.IEventRepository;
 import br.selene.projectseleneback.domain.event.service.IEventService;
 import br.selene.projectseleneback.infra.exception.TicketOperationException;
+import br.selene.projectseleneback.infra.objectStorage.IStorageService;
 
 @Service
 public class EventService implements IEventService {
 
 	private IEventRepository eventRepository;
+	private IStorageService storageService;
 
-	public EventService(IEventRepository eventRepository) {
+	public EventService(IEventRepository eventRepository, IStorageService storageService) {
 		this.eventRepository = eventRepository;
+		this.storageService = storageService;
 	}
 
 	@Override
@@ -47,49 +53,65 @@ public class EventService implements IEventService {
 	}
 
 	@Override
-	public EventDTO createEvent(CreateEventDTO createEventDTO) {
+	public EventDTO createEvent(CreateEventDTO createEventDTO,  MultipartFile file) throws IOException {
 		Event newEvent = new Event();
-		newEvent.setTitle(createEventDTO.title());
-		newEvent.setDescription(createEventDTO.description());
-		newEvent.setDate(createEventDTO.date());
+		newEvent.setTitle(createEventDTO.getTitle());
+		newEvent.setDescription(createEventDTO.getDescription());
+		newEvent.setDate(createEventDTO.getDate());
 
 		Address address = new Address();
-		if (createEventDTO.address() != null) {
-			address.setCity(createEventDTO.address().city());
-			address.setNeighbourhood(createEventDTO.address().neighbourhood());
-			address.setNumber(createEventDTO.address().number());
-			address.setState(createEventDTO.address().state());
-			address.setStreet(createEventDTO.address().street());
-			address.setZipCode(createEventDTO.address().zipCode());
+		if (createEventDTO.getAddress() != null) {
+			address.setCity(createEventDTO.getAddress().getCity());
+			address.setNeighbourhood(createEventDTO.getAddress().getNeighbourhood());
+			address.setNumber(createEventDTO.getAddress().getNumber());
+			address.setState(createEventDTO.getAddress().getState());
+			address.setStreet(createEventDTO.getAddress().getStreet());
+			address.setZipCode(createEventDTO.getAddress().getZipCode());
 		}
 
 		newEvent.setAddress(address);
 		newEvent.setStatus(EventStatusEnum.INACTIVE);
+		
+	    if (file != null && !file.isEmpty()) {
+	    	String fileName = file.getOriginalFilename();
+	        String newFileName = storageService.getName(fileName);
+	        storageService.upload(newFileName, file.getInputStream(), file.getContentType());
+	        newEvent.setPreviewImageUrl(newFileName);
+	    }
 
 		return new EventDTO(eventRepository.save(newEvent));
 	}
 
 	@Override
-	public EventDTO updateEvent(Long eventId, UpdateEventDTO updateEventDTO) {
+	public EventDTO updateEvent(Long eventId, UpdateEventDTO updateEventDTO, MultipartFile file) throws IOException {
 		Event updatedEvent = new Event();
 
 		updatedEvent.setId(eventId);
-		updatedEvent.setTitle(updateEventDTO.title());
-		updatedEvent.setDescription(updateEventDTO.description());
-		updatedEvent.setDate(updateEventDTO.date());
-		updatedEvent.setStatus(EventStatusEnum.INACTIVE);
+		if(updateEventDTO != null) {
+			updatedEvent.setTitle(updateEventDTO.getTitle());
+			updatedEvent.setDescription(updateEventDTO.getDescription());
+			updatedEvent.setDate(updateEventDTO.getDate());
+			updatedEvent.setStatus(EventStatusEnum.INACTIVE);
 
-		Address address = new Address();
-		if (updateEventDTO.address() != null) {
-			address.setCity(updateEventDTO.address().city());
-			address.setNeighbourhood(updateEventDTO.address().neighbourhood());
-			address.setNumber(updateEventDTO.address().number());
-			address.setState(updateEventDTO.address().state());
-			address.setStreet(updateEventDTO.address().street());
-			address.setZipCode(updateEventDTO.address().zipCode());
+			Address address = new Address();
+			if (updateEventDTO.getAddress() != null) {
+				address.setCity(updateEventDTO.getAddress().getCity());
+				address.setNeighbourhood(updateEventDTO.getAddress().getNeighbourhood());
+				address.setNumber(updateEventDTO.getAddress().getNumber());
+				address.setState(updateEventDTO.getAddress().getState());
+				address.setStreet(updateEventDTO.getAddress().getStreet());
+				address.setZipCode(updateEventDTO.getAddress().getZipCode());
+			}
+
+			updatedEvent.setAddress(address);
 		}
-
-		updatedEvent.setAddress(address);
+		
+		if (file != null && !file.isEmpty()) {
+	    	String fileName = file.getOriginalFilename();
+	        String newFileName = storageService.getName(fileName);
+	        storageService.upload(newFileName, file.getInputStream(), file.getContentType());
+	        updatedEvent.setPreviewImageUrl(newFileName);
+	    }
 
 		return new EventDTO(eventRepository.save(updatedEvent));
 	}

@@ -13,6 +13,7 @@ public class EventDTO {
 	private String description;
 	private LocalDateTime date;
 	private Address address;
+	private String previewImageUrl;
 	private EventStatusEnum status;
 
 	public EventDTO() {
@@ -24,6 +25,7 @@ public class EventDTO {
 		this.description = event.getDescription();
 		this.date = event.getDate();
 		this.address = event.getAddress();
+		this.previewImageUrl = event.getPreviewImageUrl();
 		this.status = event.getStatus();
 	}
 
@@ -65,6 +67,14 @@ public class EventDTO {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public String getPreviewImageUrl() {
+		return previewImageUrl;
+	}
+
+	public void setPreviewImageUrl(String previewImageUrl) {
+		this.previewImageUrl = previewImageUrl;
 	}
 
 	public EventStatusEnum getStatus() {

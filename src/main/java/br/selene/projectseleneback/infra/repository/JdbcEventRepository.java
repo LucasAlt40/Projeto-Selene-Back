@@ -44,7 +44,7 @@ public class JdbcEventRepository implements IEventRepository {
 		int total = jdbc.queryForObject(rowCountSql, Integer.class);
 
 		String querySql = """
-				    SELECT id, title, description, date, city, neighbourhood, number, street, state, zip_code, status, created_at
+				    SELECT id, title, description, date, city, neighbourhood, number, street, state, zip_code, status, created_at, preview_image_url
 				    FROM tb_event
 				    ORDER BY id
 				    LIMIT ? OFFSET ?
@@ -58,7 +58,7 @@ public class JdbcEventRepository implements IEventRepository {
 	@Override
 	public Event findById(Long eventId) {
 		String querySql = """
-				    SELECT id, title, description, date, city, neighbourhood, number, street, state, zip_code, status, created_at
+				    SELECT id, title, description, date, city, neighbourhood, number, street, state, zip_code, status, created_at, preview_image_url
 				    FROM tb_event
 				    WHERE id = ?
 				""";
@@ -177,9 +177,15 @@ public class JdbcEventRepository implements IEventRepository {
 	}
 
 	private TicketCategory mapTicketCategory(ResultSet rs, int rowNum) throws SQLException {
-		return new TicketCategory(rs.getLong("id"), rs.getLong("price"), rs.getString("description"),
-				rs.getInt("quantity"), rs.getInt("quantity_available"), rs.getLong("event_id"),
-				DateHelper.convertDateToLocalDateTime(rs.getTimestamp("created_at")));
+		return new TicketCategory(
+						rs.getLong("id"), 
+						rs.getLong("price"), 
+						rs.getString("description"),
+						rs.getInt("quantity"), 
+						rs.getInt("quantity_available"), 
+						rs.getLong("event_id"),
+						DateHelper.convertDateToLocalDateTime(rs.getTimestamp("created_at"))
+					);
 	}
 
 	private Event mapEvent(ResultSet rs, int rowNum) throws SQLException {
@@ -192,16 +198,21 @@ public class JdbcEventRepository implements IEventRepository {
 		address.setState(rs.getString("state"));
 		address.setZipCode(rs.getString("zip_code"));
 
-		return new Event(rs.getLong("id"), rs.getString("title"), rs.getString("description"),
-				DateHelper.convertDateToLocalDateTime(rs.getTimestamp("date")), address,
-				EventStatusEnum.valueOf(rs.getString("status")),
-				DateHelper.convertDateToLocalDateTime(rs.getTimestamp("created_at")));
+		return new Event(
+					rs.getLong("id"), 
+					rs.getString("title"), 
+					rs.getString("description"),
+					DateHelper.convertDateToLocalDateTime(rs.getTimestamp("date")), 
+					address, rs.getString("preview_image_url"),
+					EventStatusEnum.valueOf(rs.getString("status")),
+					DateHelper.convertDateToLocalDateTime(rs.getTimestamp("created_at"))
+				);
 	}
 
 	private void createEvent(Event event) {
 		String sql = """
-					INSERT INTO tb_event(title, description, date, city, neighbourhood, number, street, state, zip_code, status)
-					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+					INSERT INTO tb_event(title, description, date, city, neighbourhood, number, street, state, zip_code, status, preview_image_url)
+					VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 				""";
 
 		KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -218,6 +229,7 @@ public class JdbcEventRepository implements IEventRepository {
 			ps.setString(8, event.getAddress().getState());
 			ps.setString(9, event.getAddress().getZipCode());
 			ps.setString(10, event.getStatus().name());
+			ps.setString(10, event.getPreviewImageUrl());
 			return ps;
 		}, keyHolder);
 
@@ -282,6 +294,11 @@ public class JdbcEventRepository implements IEventRepository {
 		if(event.getStatus() != null) {
 			fieldsToUpdate.add("status = ?");
 			params.add(event.getStatus().name());
+		}
+		
+		if(event.getPreviewImageUrl() != null && !event.getPreviewImageUrl().isBlank()) {
+			fieldsToUpdate.add("preview_image_url = ?");
+			params.add(event.getPreviewImageUrl());
 		}
 
 		updateQuery.append(String.join(", ", fieldsToUpdate));

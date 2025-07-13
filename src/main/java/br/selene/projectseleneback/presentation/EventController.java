@@ -1,9 +1,12 @@
 package br.selene.projectseleneback.presentation;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -11,13 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import br.selene.projectseleneback.domain.event.dto.CreateEventDTO;
+import br.selene.projectseleneback.domain.event.dto.CreateEventForm;
 import br.selene.projectseleneback.domain.event.dto.CreateTicketCategoryDTO;
 import br.selene.projectseleneback.domain.event.dto.EventDTO;
 import br.selene.projectseleneback.domain.event.dto.SearchEventDTO;
 import br.selene.projectseleneback.domain.event.dto.TicketCategoryDTO;
 import br.selene.projectseleneback.domain.event.dto.UpdateEventDTO;
+import br.selene.projectseleneback.domain.event.dto.UpdateEventForm;
 import br.selene.projectseleneback.domain.event.dto.UpdateTicketCategoryDTO;
 import br.selene.projectseleneback.domain.event.service.IEventService;
 import br.selene.projectseleneback.presentation.utils.CustomPage;
@@ -39,16 +45,23 @@ public class EventController {
 		return new CustomPage<>(eventService.findAll(searchEventDTO));
 	}
 
-	@PostMapping(MappingEndpoint.CREATE)
+	@PostMapping(value = MappingEndpoint.CREATE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
-	public EventDTO createEvent(@RequestBody @Valid CreateEventDTO createEventDTO) {
-		return eventService.createEvent(createEventDTO);
+	public EventDTO createEvent(@ModelAttribute @Valid CreateEventForm form) throws IOException {
+		CreateEventDTO createEventDTO = form.getEvent();
+	    MultipartFile file = form.getFile();
+		return eventService.createEvent(createEventDTO, file);
 	}
 
-	@PutMapping("/{id}" + MappingEndpoint.UPDATE)
+	@PutMapping(value = "/{id}" + MappingEndpoint.UPDATE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public EventDTO updateEvent(@PathVariable Long id, @RequestBody @Valid UpdateEventDTO updateEventDTO) {
-		return eventService.updateEvent(id, updateEventDTO);
+	public EventDTO updateEvent(
+	        @PathVariable Long id,
+	        @ModelAttribute @Valid UpdateEventForm form
+	) throws IOException {
+		UpdateEventDTO updateEventDTO = form.getEvent();
+	    MultipartFile file = form.getFile();
+	    return eventService.updateEvent(id, updateEventDTO, file);
 	}
 
 	@GetMapping("/{id}" + MappingEndpoint.Event.TICKET_CATEGORY_FIND)

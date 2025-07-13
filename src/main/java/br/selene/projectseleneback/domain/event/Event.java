@@ -9,22 +9,22 @@ public class Event {
 	private String description;
 	private LocalDateTime date;
 	private Address address;
+	private String previewImageUrl;
 	private EventStatusEnum status;
 	private LocalDateTime createdAt;
 
 	public Event() {
 	}
 
-	public Event(Long id, String title, String description, LocalDateTime date, Address address, EventStatusEnum status,
+	public Event(Long id, String title, String description, LocalDateTime date, Address address, String previewImageUrl, EventStatusEnum status,
 			LocalDateTime createdAt) {
-		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.date = date;
 		this.address = address;
+		this.previewImageUrl = previewImageUrl;
 		this.status = status;
-
 		this.createdAt = createdAt;
 	}
 
@@ -66,6 +66,14 @@ public class Event {
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	
+	public String getPreviewImageUrl() {
+		return previewImageUrl;
+	}
+	
+	public void setPreviewImageUrl(String previewImageUrl) {
+		this.previewImageUrl = previewImageUrl;
 	}
 
 	public EventStatusEnum getStatus() {
