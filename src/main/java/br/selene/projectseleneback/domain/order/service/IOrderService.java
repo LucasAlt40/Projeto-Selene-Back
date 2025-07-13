@@ -11,6 +11,6 @@ import java.util.List;
 public interface IOrderService {
     ResponseOrderDTO create(RequestCreateOrderDTO request);
     void createItems(List<CreateTicketDTO> tickets);
-    void updateOrderStatus(OrderStatusEnum status);
-    Order deleteOrder(int orderId);
+    Order updateOrderStatus(Long id ,OrderStatusEnum status);
+    Order deleteOrder(long orderId);
 }

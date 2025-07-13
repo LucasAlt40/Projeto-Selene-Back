@@ -12,7 +12,7 @@ public class NotificationFacade {
     public IOrderService orderService;
 
     public void updateStatusOrder() {
-        orderService.updateOrderStatus(OrderStatusEnum.EXPIRED);
-        // TODO Lógica para devolver a quantidade de tickets
+//        orderService.updateOrderStatus(OrderStatusEnum.EXPIRED);
+
     }
 }

@@ -4,6 +4,7 @@ import br.selene.projectseleneback.domain.order.ItemOrder;
 import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.OrderStatusEnum;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
+import br.selene.projectseleneback.infra.exception.CheckoutOperationException;
 import br.selene.projectseleneback.infra.exception.OrderOperationException;
 import br.selene.projectseleneback.infra.utils.DateHelper;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -74,6 +75,19 @@ public class JdbcOrderRepository implements IOrderRepository {
       }
 
       throw new OrderOperationException("Não foi possível cancelar seu pedido!");
+    }
+
+    @Override
+    public Order updateOrderStatus(Long orderId, OrderStatusEnum status) {
+        String sql = "UPDATE tb_header_order" +
+                "\tSET status= ? WHERE id = ?";
+
+        int rows = jdbc.update(sql, status,orderId);
+
+        if (rows > 0) {
+            return findById(orderId);
+        }
+        throw new OrderOperationException("Não foi possível atualizar o pedido");
     }
 
 

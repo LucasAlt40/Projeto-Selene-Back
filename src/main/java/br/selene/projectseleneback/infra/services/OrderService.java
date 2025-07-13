@@ -78,12 +78,12 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public void updateOrderStatus(OrderStatusEnum status) {
-
+    public Order updateOrderStatus(Long id,OrderStatusEnum status) {
+        return orderRepository.updateOrderStatus(id,status);
     }
 
     @Override
-    public Order deleteOrder(int orderId) {
+    public Order deleteOrder(long orderId) {
         Order orderDelete = orderRepository.deleteById(orderId);
 
         for (ItemOrder itemOrder : orderDelete.getItems()) {
