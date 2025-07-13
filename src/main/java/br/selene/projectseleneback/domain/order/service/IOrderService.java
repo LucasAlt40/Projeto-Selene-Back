@@ -12,5 +12,5 @@ public interface IOrderService {
     ResponseOrderDTO create(RequestCreateOrderDTO request);
     void createItems(List<CreateTicketDTO> tickets);
     Order updateOrderStatus(Long id ,OrderStatusEnum status);
-    Order deleteOrder(long orderId);
+    Order deleteOrder(Long orderId);
 }

@@ -1,6 +1,6 @@
-package br.selene.projectseleneback.domain.ticketCategory.dto;
+package br.selene.projectseleneback.domain.event.dto;
 
-import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
+import br.selene.projectseleneback.domain.event.TicketCategory;
 
 public class TicketCategoryDTO {
 
