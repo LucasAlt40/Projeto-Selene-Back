@@ -12,10 +12,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.selene.projectseleneback.domain.event.dto.CreateEventDTO;
 import br.selene.projectseleneback.domain.event.dto.CreateTicketCategoryDTO;
+import br.selene.projectseleneback.domain.event.dto.EventDTO;
+import br.selene.projectseleneback.domain.event.dto.SearchEventDTO;
 import br.selene.projectseleneback.domain.event.dto.TicketCategoryDTO;
+import br.selene.projectseleneback.domain.event.dto.UpdateEventDTO;
 import br.selene.projectseleneback.domain.event.dto.UpdateTicketCategoryDTO;
 import br.selene.projectseleneback.domain.event.service.IEventService;
+import br.selene.projectseleneback.presentation.utils.CustomPage;
 import jakarta.validation.Valid;
 
 @RestController
@@ -28,22 +33,40 @@ public class EventController {
 		this.eventService = eventService;
 	}
 
+	@GetMapping(MappingEndpoint.FIND)
+	@ResponseStatus(HttpStatus.OK)
+	public CustomPage<EventDTO> findAll(SearchEventDTO searchEventDTO) {
+		return new CustomPage<>(eventService.findAll(searchEventDTO));
+	}
+
+	@PostMapping(MappingEndpoint.CREATE)
+	@ResponseStatus(HttpStatus.CREATED)
+	public EventDTO createEvent(@RequestBody @Valid CreateEventDTO createEventDTO) {
+		return eventService.createEvent(createEventDTO);
+	}
+
+	@PutMapping("/{id}" + MappingEndpoint.UPDATE)
+	@ResponseStatus(HttpStatus.OK)
+	public EventDTO updateEvent(@PathVariable Long id, @RequestBody @Valid UpdateEventDTO updateEventDTO) {
+		return eventService.updateEvent(id, updateEventDTO);
+	}
+
 	@GetMapping("/{id}" + MappingEndpoint.Event.TICKET_CATEGORY_FIND)
 	@ResponseStatus(HttpStatus.OK)
-	public List<TicketCategoryDTO> find(@PathVariable Long id) {
+	public List<TicketCategoryDTO> findTicketCategories(@PathVariable Long id) {
 		return eventService.findTicketCategoriesFromEvent(id);
 	}
 
 	@PostMapping("/{id}" + MappingEndpoint.Event.TICKET_CATEGORY_ADD)
 	@ResponseStatus(HttpStatus.CREATED)
-	public TicketCategoryDTO create(@PathVariable Long id,
+	public TicketCategoryDTO addTicketCategory(@PathVariable Long id,
 			@RequestBody @Valid CreateTicketCategoryDTO createTicketCategoryDTO) {
 		return eventService.addTicketCategory(id, createTicketCategoryDTO);
 	}
 
 	@PutMapping("/{id}" + MappingEndpoint.Event.TICKET_CATEGORY + "/{ticketCategoryId}" + MappingEndpoint.UPDATE)
 	@ResponseStatus(HttpStatus.OK)
-	public TicketCategoryDTO update(@PathVariable Long id, @PathVariable Long ticketCategoryId,
+	public TicketCategoryDTO updateTicketCategory(@PathVariable Long id, @PathVariable Long ticketCategoryId,
 			@RequestBody @Valid UpdateTicketCategoryDTO updateTicketCategoryDTO) {
 		return eventService.updateTicketCategory(id, ticketCategoryId, updateTicketCategoryDTO);
 	}
