@@ -12,4 +12,5 @@ public interface IOrderService {
     ResponseOrderDTO create(RequestCreateOrderDTO request);
     Order updateOrderStatus(Long id ,OrderStatusEnum status);
     Order deleteOrder(Long orderId);
+    Order findById(Long id);
 }

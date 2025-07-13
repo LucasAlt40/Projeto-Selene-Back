@@ -94,6 +94,13 @@ public class OrderService implements IOrderService {
 		return orderDelete;
 	}
 
+	@Override
+	public Order findById(Long id) {
+		Order order = orderRepository.findById(id);
+		order.setItems(orderRepository.findItemsByOrderId(id));
+		return order;
+	}
+
 	private void reserveTicket(ItemOrder itemOrder) {
 		eventService.reserveTicket(itemOrder.getTicketCategoryId(), itemOrder.getTicketCategoryQuantity());
 	}

@@ -40,7 +40,7 @@ public class OrderToRequestCheckout {
 
         return new RequestCheckoutDTO(
                 order.getId().toString(),
-                DateHelper.formatToIso8601(LocalDateTime.now().plusMinutes(1)),
+                DateHelper.formatToIso8601(LocalDateTime.now().plusMinutes(10)),
                 customerDto,
                 itemOrders,
                 paymentMethodOrders,

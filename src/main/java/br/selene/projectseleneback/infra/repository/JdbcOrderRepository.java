@@ -4,10 +4,8 @@ import br.selene.projectseleneback.domain.order.ItemOrder;
 import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.OrderStatusEnum;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
-import br.selene.projectseleneback.infra.exception.CheckoutOperationException;
 import br.selene.projectseleneback.infra.exception.OrderOperationException;
 import br.selene.projectseleneback.infra.utils.DateHelper;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -86,6 +84,18 @@ public class JdbcOrderRepository implements IOrderRepository {
         throw new OrderOperationException("Não foi possível atualizar o pedido");
     }
 
+    @Override
+    public List<ItemOrder> findItemsByOrderId(Long orderId) {
+        String sql = """
+        SELECT order_id, ticket_category_id, ticket_category_price, ticket_category_description, 
+               ticket_category_quantity, event_id
+          FROM tb_item_order
+         WHERE order_id = ?
+        """;
+
+        return jdbc.query(sql, (rs, rowNum) -> mapItemOrder(rs), orderId);
+    }
+
 
     private KeyHolder createOrderHeader(Order order) {
         final String sql = "INSERT INTO tb_header_order (customer_id, total_price, status) VALUES (?, ?, ?)";
@@ -131,11 +141,21 @@ public class JdbcOrderRepository implements IOrderRepository {
                 rs.getLong("id"),
                 rs.getLong("customer_id"),
                 orderStatus,
-                new ArrayList<ItemOrder>(), // TO-DO recuperar informações com left join no banco
+                new ArrayList<ItemOrder>(),
                 createdAt
         );
     }
 
+    private ItemOrder mapItemOrder(ResultSet rs) throws SQLException {
+        return new ItemOrder(
+                rs.getLong("order_id"),
+                rs.getLong("ticket_category_id"),
+                rs.getLong("ticket_category_price"),
+                rs.getString("ticket_category_description"),
+                rs.getInt("ticket_category_quantity"),
+                rs.getLong("event_id")
+        );
+    }
 
 
 }

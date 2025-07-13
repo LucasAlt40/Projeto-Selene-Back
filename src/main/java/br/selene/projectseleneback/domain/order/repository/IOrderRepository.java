@@ -14,4 +14,5 @@ public interface IOrderRepository {
     List<Order> findAllByCustomer(int customerId);
     Order deleteById(long orderId);
     Order updateOrderStatus(Long orderId, OrderStatusEnum status);
+    List<ItemOrder>  findItemsByOrderId(Long orderId);
 }
