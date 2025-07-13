@@ -8,6 +8,7 @@ import br.selene.projectseleneback.domain.order.dto.*;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
 import br.selene.projectseleneback.domain.order.service.IOrderService;
 import br.selene.projectseleneback.domain.ticketCategory.repository.ITicketCategoryRepository;
+import br.selene.projectseleneback.domain.ticketCategory.service.ITicketCategoryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +18,12 @@ import java.util.List;
 @Service
 public class OrderService implements IOrderService {
     IOrderRepository orderRepository;
-    ITicketCategoryRepository ticketCategoryRepository;
+    ITicketCategoryService ticketCategoryService;
     ICheckoutService checkoutService;
 
-    public OrderService(IOrderRepository orderRepository, ITicketCategoryRepository ticketCategoryRepository, ICheckoutService checkoutService) {
+    public OrderService(IOrderRepository orderRepository, ITicketCategoryService ticketCategoryService, ICheckoutService checkoutService) {
         this.orderRepository = orderRepository;
-        this.ticketCategoryRepository = ticketCategoryRepository;
+        this.ticketCategoryService = ticketCategoryService;
         this.checkoutService = checkoutService;
     }
 
@@ -37,14 +38,14 @@ public class OrderService implements IOrderService {
         List<ItemOrder> items = new ArrayList<>();
 
         for (CreateTicketDTO ticket : request.tickets()) {
-            var ticketCategory = ticketCategoryRepository.findById(ticket.categoryId());
+            var ticketCategory = ticketCategoryService.findById(ticket.categoryId());
             ItemOrder itemOrder = new ItemOrder();
             itemOrder.setEventId(ticket.eventId());
             itemOrder.setTicketCategoryId(ticket.categoryId());
             itemOrder.setTicketCategoryPrice(ticketCategory.getPrice());
             itemOrder.setTicketCategoryDescription(ticketCategory.getDescription());
             itemOrder.setTicketCategoryQuantity(ticket.quantity());
-
+            reserveTicket(itemOrder);
             items.add(itemOrder);
         }
 
@@ -79,6 +80,26 @@ public class OrderService implements IOrderService {
     @Override
     public void updateOrderStatus(OrderStatusEnum status) {
 
+    }
+
+    @Override
+    public Order deleteOrder(int orderId) {
+        Order orderDelete = orderRepository.deleteById(orderId);
+
+        for (ItemOrder itemOrder : orderDelete.getItems()) {
+            releaseTicket(itemOrder);
+        }
+        checkoutService.deleteCheckoutByOrderId(orderId);
+
+        return orderDelete;
+    }
+
+    private void reserveTicket(ItemOrder itemOrder) {
+       ticketCategoryService.reserveTicket(itemOrder.getTicketCategoryId(), itemOrder.getTicketCategoryQuantity());
+    }
+
+    private void releaseTicket(ItemOrder itemOrder) {
+        ticketCategoryService.releaseTicket(itemOrder.getTicketCategoryId(), itemOrder.getTicketCategoryQuantity());
     }
 }
 

@@ -15,6 +15,8 @@ public interface ITicketCategoryService {
 
 	TicketCategoryDTO update(Long TicketCategoryId, UpdateTicketCategoryDTO updateTicketCategoryDTO);
 
+	TicketCategoryDTO findById(Long ticketCategoryId);
+
 	void reserveTicket(Long ticketCategoryId, int quantity) throws TicketOperationException;
 
 	void releaseTicket(Long ticketCategoryId, int quantity) throws TicketOperationException;

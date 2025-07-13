@@ -63,6 +63,14 @@ public class TicketCategoryService implements ITicketCategoryService {
 	}
 
 	@Override
+	public TicketCategoryDTO findById(Long ticketCategoryId) {
+		var ticket = ticketCategoryRepository.findById(ticketCategoryId);
+
+		return new  TicketCategoryDTO(ticket);
+	}
+
+
+	@Override
 	public void reserveTicket(Long ticketCategoryId, int quantity) {
 		boolean updated = ticketCategoryRepository.reserveTicket(ticketCategoryId, quantity);
 		if (!updated) {

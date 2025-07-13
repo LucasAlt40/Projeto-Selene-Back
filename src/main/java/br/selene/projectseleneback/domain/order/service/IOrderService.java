@@ -1,5 +1,6 @@
 package br.selene.projectseleneback.domain.order.service;
 
+import br.selene.projectseleneback.domain.order.Order;
 import br.selene.projectseleneback.domain.order.dto.CreateTicketDTO;
 import br.selene.projectseleneback.domain.order.dto.RequestCreateOrderDTO;
 import br.selene.projectseleneback.domain.order.OrderStatusEnum;
@@ -11,4 +12,5 @@ public interface IOrderService {
     ResponseOrderDTO create(RequestCreateOrderDTO request);
     void createItems(List<CreateTicketDTO> tickets);
     void updateOrderStatus(OrderStatusEnum status);
+    Order deleteOrder(int orderId);
 }

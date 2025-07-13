@@ -77,6 +77,7 @@ public class CheckoutService implements ICheckoutService {
         }
     }
 
+
     @Override
     public Page<Checkout> findAll(Pageable pageable) {
         return checkoutRepository.findAll(pageable);
@@ -97,4 +98,23 @@ public class CheckoutService implements ICheckoutService {
         return checkoutRepository.findCheckoutsByOrderId(orderId);
     }
 
+    @Override
+    public Checkout deleteCheckout(String checkoutId) {
+        return checkoutRepository.findById(checkoutId);
+    }
+
+    @Override
+    public Checkout deleteCheckoutByOrderId(long orderId) {
+        return checkoutRepository.deleteCheckoutByOrderId(  orderId);
+    }
+
+    @Override
+    public Checkout updateCheckoutPaymentStatusByOrderId(long orderId, PaymentCheckoutStatusEnum checkoutStatus) {
+        return checkoutRepository.updateCheckoutPaymentStatusByOrderId(orderId, checkoutStatus);
+    }
+
+    @Override
+    public Checkout updateCheckoutPaymentStatus(String checkoutId, PaymentCheckoutStatusEnum checkoutStatus) {
+        return checkoutRepository.updateCheckoutPaymentStatus(checkoutId, checkoutStatus);
+    }
 }
