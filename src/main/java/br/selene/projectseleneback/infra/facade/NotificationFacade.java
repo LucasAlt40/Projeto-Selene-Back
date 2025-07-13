@@ -11,6 +11,11 @@ public class NotificationFacade {
     public ICheckoutService checkoutService;
     public IOrderService orderService;
 
+    public NotificationFacade(ICheckoutService checkoutService, IOrderService orderService) {
+        this.checkoutService = checkoutService;
+        this.orderService = orderService;
+    }
+
     public void updatePaymentStatus(Long orderId, PaymentCheckoutStatusEnum paymentStatus) {
 
         orderService.updateOrderStatus(orderId, mapToOrderStatus(paymentStatus));

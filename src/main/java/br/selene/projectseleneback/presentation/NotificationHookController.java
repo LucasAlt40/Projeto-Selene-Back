@@ -11,7 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/notification")
 public class NotificationHookController {
-    private NotificationFacade facade;
+    private final NotificationFacade facade;
+
+    public NotificationHookController(NotificationFacade facade) {
+        this.facade = facade;
+    }
 
     @PostMapping("/checkout")
     public void notifyCheckout(@RequestBody RequestCheckoutNotificationDTO request) {
