@@ -4,7 +4,9 @@ import br.selene.projectseleneback.domain.checkout.PaymentMethodsCheckoutEnum;
 import br.selene.projectseleneback.domain.checkout.dto.*;
 import br.selene.projectseleneback.domain.customer.Customer;
 import br.selene.projectseleneback.domain.order.Order;
+import br.selene.projectseleneback.infra.utils.DateHelper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,8 @@ public class OrderToRequestCheckout {
 
 
         return new RequestCheckoutDTO(
+                order.getId().toString(),
+                DateHelper.formatToIso8601(LocalDateTime.now().plusMinutes(15)),
                 customerDto,
                 itemOrders,
                 paymentMethodOrders,

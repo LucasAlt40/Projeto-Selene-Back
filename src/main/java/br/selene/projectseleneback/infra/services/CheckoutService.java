@@ -64,6 +64,7 @@ public class CheckoutService implements ICheckoutService {
                     .filter(link -> "PAY".equalsIgnoreCase(link.rel()))
                     .findFirst();
 
+
             checkoutRepository.save(new Checkout(response.id(), order.getId(), payLink.get().href(), response.status(), PaymentCheckoutStatusEnum.WAITING ));
 
             return new ResponseCreateCheckoutDTO(
