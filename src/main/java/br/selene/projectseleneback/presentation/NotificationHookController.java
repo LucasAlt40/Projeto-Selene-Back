@@ -15,12 +15,11 @@ public class NotificationHookController {
 
     @PostMapping("/checkout")
     public void notifyCheckout(@RequestBody RequestCheckoutNotificationDTO request) {
-        System.out.println(request.toString());
+        facade.updateCheckoutStatus(request.id(), request.referenceId());
     }
 
     @PostMapping("/payment")
     public void notifyPayment(@RequestBody RequestPaymentNotificationDTO request) {
-        System.out.println(request.toString());
-
+        facade.updatePaymentStatus(request.referenceId(), request.charges().getFirst().status());
     }
 }

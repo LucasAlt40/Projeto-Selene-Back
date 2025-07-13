@@ -71,13 +71,14 @@ public class OrderService implements IOrderService {
 	}
 
 
-	@Override
-	public void createItems(List<CreateTicketDTO> tickets) {
-
-	}
-
     @Override
-    public Order updateOrderStatus(Long id,OrderStatusEnum status) {
+    public Order updateOrderStatus(Long id, OrderStatusEnum status) {
+		Order order = orderRepository.findById(id);
+		if(status.equals(OrderStatusEnum.EXPIRED)) {
+			for (ItemOrder itemOrder : order.getItems()) {
+				releaseTicket(itemOrder);
+			}
+		}
         return orderRepository.updateOrderStatus(id,status);
     }
 

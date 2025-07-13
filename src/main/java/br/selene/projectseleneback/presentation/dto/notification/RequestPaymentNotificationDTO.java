@@ -4,7 +4,7 @@ import java.util.List;
 
 public record RequestPaymentNotificationDTO(
         String id,
-        String referenceId,
+        Long referenceId,
         List<ChargesPaymentDTO> charges
 ) {
 }

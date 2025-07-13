@@ -13,7 +13,7 @@ public class NotificationFacade {
 
     public void updatePaymentStatus(Long orderId, PaymentCheckoutStatusEnum paymentStatus) {
 
-//        orderService.updateOrderStatus(orderId, paymentStatus);
+        orderService.updateOrderStatus(orderId, mapToOrderStatus(paymentStatus));
         checkoutService.updateCheckoutPaymentStatusByOrderId(orderId, paymentStatus);
 
         if(paymentStatus.equals(PaymentCheckoutStatusEnum.PAID)) {
@@ -24,5 +24,26 @@ public class NotificationFacade {
     public void updateCheckoutStatus(String checkoutId, Long orderId) {
         checkoutService.deleteCheckout(checkoutId);
         orderService.updateOrderStatus(orderId, OrderStatusEnum.EXPIRED);
+    }
+
+    private OrderStatusEnum mapToOrderStatus(PaymentCheckoutStatusEnum paymentStatus) {
+        if (paymentStatus == null) {
+            throw new IllegalArgumentException("PaymentCheckoutStatusEnum cannot be null");
+        }
+
+        switch (paymentStatus) {
+            case PAID:
+                return OrderStatusEnum.COMPLETED;
+            case IN_ANALYSIS:
+                return OrderStatusEnum.PROCESSING;
+            case DECLINED:
+                return OrderStatusEnum.PROCESSING;
+            case CANCELED:
+                return OrderStatusEnum.CANCELLED;
+            case WAITING:
+                return OrderStatusEnum.WAITING_PAYMENT;
+            default:
+                throw new IllegalArgumentException("Unknown PaymentCheckoutStatusEnum: " + paymentStatus);
+        }
     }
 }
