@@ -143,10 +143,9 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
     @Override
     public Checkout updateCheckoutPaymentStatusByOrderId(long orderId, PaymentCheckoutStatusEnum checkoutStatus) {
-        String sql = "UPDATE tb_checkout_order" +
-                "\tSET payment_status= ? WHERE id = ?";
+        String sql = "UPDATE tb_checkout_order SET payment_status= ? WHERE id_order = ?";
 
-        int rows = jdbc.update(sql, checkoutStatus,orderId);
+        int rows = jdbc.update(sql, checkoutStatus.name(), orderId);
 
         if (rows > 0) {
             return findCheckoutsByOrderId(orderId).getFirst();
@@ -159,7 +158,7 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
         String sql = "UPDATE tb_checkout_order" +
                 "\tSET payment_status= ? WHERE id = ?";
 
-        int rows = jdbc.update(sql, checkoutStatus,checkoutId);
+        int rows = jdbc.update(sql, checkoutStatus.name(), checkoutId);
 
         if (rows > 0) {
             return findById(checkoutId);

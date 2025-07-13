@@ -39,7 +39,7 @@ public class CheckoutService implements ICheckoutService {
 
     public CheckoutService(WebClient.Builder builder, ICheckoutRepository checkoutRepository, ICustomerService customerService) {
         this.webClient = builder.baseUrl("https://sandbox.api.pagseguro.com")
-                .defaultHeader("Authorization", "Bearer <TOKEN>")
+                .defaultHeader("Authorization", "Bearer ")
                 .build();
         this.checkoutRepository = checkoutRepository;
         this.customerService = customerService;

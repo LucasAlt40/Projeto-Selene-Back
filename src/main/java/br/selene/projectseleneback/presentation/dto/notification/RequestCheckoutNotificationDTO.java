@@ -1,10 +1,10 @@
 package br.selene.projectseleneback.presentation.dto.notification;
 
-import br.selene.projectseleneback.domain.checkout.PaymentCheckoutStatusEnum;
+import br.selene.projectseleneback.domain.checkout.CheckoutStatusEnum;
 
 public record RequestCheckoutNotificationDTO(
         String id,
-        Long referenceId,
-        PaymentCheckoutStatusEnum status
+        Long reference_id,
+        CheckoutStatusEnum status
 ) {
 }

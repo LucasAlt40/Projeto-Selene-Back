@@ -82,7 +82,7 @@ public class JdbcOrderRepository implements IOrderRepository {
         String sql = "UPDATE tb_header_order" +
                 "\tSET status= ? WHERE id = ?";
 
-        int rows = jdbc.update(sql, status,orderId);
+        int rows = jdbc.update(sql, status.name(), orderId);
 
         if (rows > 0) {
             return findById(orderId);

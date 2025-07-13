@@ -36,19 +36,13 @@ public class NotificationFacade {
             throw new IllegalArgumentException("PaymentCheckoutStatusEnum cannot be null");
         }
 
-        switch (paymentStatus) {
-            case PAID:
-                return OrderStatusEnum.COMPLETED;
-            case IN_ANALYSIS:
-                return OrderStatusEnum.PROCESSING;
-            case DECLINED:
-                return OrderStatusEnum.PROCESSING;
-            case CANCELED:
-                return OrderStatusEnum.CANCELLED;
-            case WAITING:
-                return OrderStatusEnum.WAITING_PAYMENT;
-            default:
-                throw new IllegalArgumentException("Unknown PaymentCheckoutStatusEnum: " + paymentStatus);
-        }
+        return switch (paymentStatus) {
+            case PAID -> OrderStatusEnum.COMPLETED;
+            case IN_ANALYSIS -> OrderStatusEnum.PROCESSING;
+            case DECLINED -> OrderStatusEnum.PROCESSING;
+            case CANCELED -> OrderStatusEnum.CANCELLED;
+            case WAITING -> OrderStatusEnum.WAITING_PAYMENT;
+            default -> throw new IllegalArgumentException("Unknown PaymentCheckoutStatusEnum: " + paymentStatus);
+        };
     }
 }

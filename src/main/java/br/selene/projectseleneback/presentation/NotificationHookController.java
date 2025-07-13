@@ -19,11 +19,11 @@ public class NotificationHookController {
 
     @PostMapping("/checkout")
     public void notifyCheckout(@RequestBody RequestCheckoutNotificationDTO request) {
-        facade.updateCheckoutStatus(request.id(), request.referenceId());
+        facade.updateCheckoutStatus(request.id(), request.reference_id());
     }
 
     @PostMapping("/payment")
     public void notifyPayment(@RequestBody RequestPaymentNotificationDTO request) {
-        facade.updatePaymentStatus(request.referenceId(), request.charges().getFirst().status());
+        facade.updatePaymentStatus(request.reference_id(), request.charges().getFirst().status());
     }
 }
