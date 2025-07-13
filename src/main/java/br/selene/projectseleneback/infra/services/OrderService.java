@@ -7,8 +7,6 @@ import br.selene.projectseleneback.domain.order.OrderStatusEnum;
 import br.selene.projectseleneback.domain.order.dto.*;
 import br.selene.projectseleneback.domain.order.repository.IOrderRepository;
 import br.selene.projectseleneback.domain.order.service.IOrderService;
-import br.selene.projectseleneback.domain.ticketCategory.repository.ITicketCategoryRepository;
-import br.selene.projectseleneback.domain.ticketCategory.service.ITicketCategoryService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,89 +15,63 @@ import java.util.List;
 
 @Service
 public class OrderService implements IOrderService {
-    IOrderRepository orderRepository;
-    ITicketCategoryService ticketCategoryService;
-    ICheckoutService checkoutService;
+	IOrderRepository orderRepository;
+	ICheckoutService checkoutService;
 
-    public OrderService(IOrderRepository orderRepository, ITicketCategoryService ticketCategoryService, ICheckoutService checkoutService) {
-        this.orderRepository = orderRepository;
-        this.ticketCategoryService = ticketCategoryService;
-        this.checkoutService = checkoutService;
-    }
+	public OrderService(IOrderRepository orderRepository, ICheckoutService checkoutService) {
+		this.orderRepository = orderRepository;
+		this.checkoutService = checkoutService;
+	}
 
-    @Override
-    @Transactional
-    public ResponseOrderDTO create(RequestCreateOrderDTO request) {
+	@Override
+	@Transactional
+	public ResponseOrderDTO create(RequestCreateOrderDTO request) {
 
-        Order order = new Order();
-        order.setCustomerId(request.customerId());
-        order.setStatus(OrderStatusEnum.WAITING_PAYMENT);
+		Order order = new Order();
+		order.setCustomerId(request.customerId());
+		order.setStatus(OrderStatusEnum.WAITING_PAYMENT);
 
-        List<ItemOrder> items = new ArrayList<>();
+		List<ItemOrder> items = new ArrayList<>();
 
-        for (CreateTicketDTO ticket : request.tickets()) {
-            var ticketCategory = ticketCategoryService.findById(ticket.categoryId());
-            ItemOrder itemOrder = new ItemOrder();
-            itemOrder.setEventId(ticket.eventId());
-            itemOrder.setTicketCategoryId(ticket.categoryId());
-            itemOrder.setTicketCategoryPrice(ticketCategory.getPrice());
-            itemOrder.setTicketCategoryDescription(ticketCategory.getDescription());
-            itemOrder.setTicketCategoryQuantity(ticket.quantity());
-            reserveTicket(itemOrder);
-            items.add(itemOrder);
-        }
+		for (CreateTicketDTO ticket : request.tickets()) {
 
-        order.setItems(items);
+			ItemOrder itemOrder = new ItemOrder();
+			itemOrder.setEventId(ticket.eventId());
+			itemOrder.setTicketCategoryId(ticket.categoryId());
+			itemOrder.setTicketCategoryQuantity(ticket.quantity());
 
-        var createdOrder = orderRepository.save(order);
+			items.add(itemOrder);
+		}
 
-        var checkout = checkoutService.createCheckout(createdOrder);
+		order.setItems(items);
 
-        OrderDTO orderDTO = new OrderDTO(
-                createdOrder.getId(),
-                createdOrder.getItems().stream().map(item ->
-                        new ItemOrderDTO(
-                                item.getTicketCategoryDescription(),
-                                item.getTicketCategoryQuantity(),
-                                item.getEventId(),
-                                item.getTicketCategoryPrice()
-                        )
-                ).toList(),
-                createdOrder.getStatus().name()
-        );
+		var createdOrder = orderRepository.save(order);
 
-        return new ResponseOrderDTO(orderDTO, checkout);
-    }
+		var checkout = checkoutService.createCheckout(createdOrder);
 
+		OrderDTO orderDTO = new OrderDTO(createdOrder.getId(),
+				createdOrder.getItems().stream()
+						.map(item -> new ItemOrderDTO(item.getTicketCategoryDescription(),
+								item.getTicketCategoryQuantity(), item.getEventId(), item.getTicketCategoryPrice()))
+						.toList(),
+				createdOrder.getStatus().name());
 
-    @Override
-    public void createItems(List<CreateTicketDTO> tickets) {
+		return new ResponseOrderDTO(orderDTO, checkout);
+	}
 
-    }
+	@Override
+	public void createItems(List<CreateTicketDTO> tickets) {
 
-    @Override
-    public void updateOrderStatus(OrderStatusEnum status) {
+	}
 
-    }
+	@Override
+	public void updateOrderStatus(OrderStatusEnum status) {
 
-    @Override
-    public Order deleteOrder(int orderId) {
-        Order orderDelete = orderRepository.deleteById(orderId);
+	}
 
-        for (ItemOrder itemOrder : orderDelete.getItems()) {
-            releaseTicket(itemOrder);
-        }
-        checkoutService.deleteCheckoutByOrderId(orderId);
-
-        return orderDelete;
-    }
-
-    private void reserveTicket(ItemOrder itemOrder) {
-       ticketCategoryService.reserveTicket(itemOrder.getTicketCategoryId(), itemOrder.getTicketCategoryQuantity());
-    }
-
-    private void releaseTicket(ItemOrder itemOrder) {
-        ticketCategoryService.releaseTicket(itemOrder.getTicketCategoryId(), itemOrder.getTicketCategoryQuantity());
-    }
+	@Override
+	public Order deleteOrder(int orderId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
-
