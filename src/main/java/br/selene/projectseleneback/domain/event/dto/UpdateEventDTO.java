@@ -4,19 +4,14 @@ import java.time.LocalDateTime;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Future;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-public record CreateEventDTO(
-		@NotBlank(message = "O titulo do evento é obrigatório")
+public record UpdateEventDTO(
 		@Size(max = 255, message = "O título do evento deve ter no máximo 255 caracteres.")
 		String title, 
 		
-		@NotBlank(message = "A descrição do evento é obrigatória")
 		String description, 
 		
-		@NotNull(message = "A data do evento é obrigatória.")
         @Future(message = "A data do evento deve ser futura.")
 		LocalDateTime date,
 		

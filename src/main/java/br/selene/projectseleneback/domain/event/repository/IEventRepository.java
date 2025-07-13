@@ -6,12 +6,15 @@ import org.springframework.data.domain.Page;
 
 import br.selene.projectseleneback.domain.event.Event;
 import br.selene.projectseleneback.domain.event.TicketCategory;
+import br.selene.projectseleneback.domain.event.dto.SearchEventDTO;
 
 public interface IEventRepository {
 
-	Page<Event> findAll();
+	Page<Event> findAll(SearchEventDTO searchEventDTO);
 
-	Event findById(int eventId);
+	Event findById(Long eventId);
+	
+	Event save(Event event);
 
 	TicketCategory addTicketCategory(TicketCategory ticketCategory);
 
