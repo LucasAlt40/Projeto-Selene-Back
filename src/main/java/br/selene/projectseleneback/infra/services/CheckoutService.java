@@ -39,7 +39,7 @@ public class CheckoutService implements ICheckoutService {
 
     public CheckoutService(WebClient.Builder builder, ICheckoutRepository checkoutRepository, ICustomerService customerService) {
         this.webClient = builder.baseUrl("https://sandbox.api.pagseguro.com")
-                .defaultHeader("Authorization", "Bearer ")
+                .defaultHeader("Authorization", "Bearer 90bd735e-a81a-4888-a862-42b7a49e6918c6f10d9b4c56976156ad4d5454607cca6923-2637-47e0-8eff-5ae320e9ee80")
                 .build();
         this.checkoutRepository = checkoutRepository;
         this.customerService = customerService;
@@ -101,7 +101,7 @@ public class CheckoutService implements ICheckoutService {
 
     @Override
     public Checkout deleteCheckout(String checkoutId) {
-        return checkoutRepository.findById(checkoutId);
+        return checkoutRepository.deleteCheckoutById(checkoutId);
     }
 
     @Override

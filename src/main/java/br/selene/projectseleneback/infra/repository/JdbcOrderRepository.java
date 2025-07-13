@@ -62,13 +62,9 @@ public class JdbcOrderRepository implements IOrderRepository {
 
     @Override
     public Order deleteById(long orderId) {
-       String sql =
-                "UPDATE tb_header_order\n" +
-                "\tSET status= \n" +
-                OrderStatusEnum.CANCELLED +
-                "\tWHERE id = ?";
+        String sql = "UPDATE tb_header_order SET status = '" + OrderStatusEnum.CANCELLED.name() + "' WHERE id = ?";
 
-      int rows = jdbc.update(sql, orderId);
+        int rows = jdbc.update(sql, orderId);
 
       if (rows > 0) {
           return findById(orderId);

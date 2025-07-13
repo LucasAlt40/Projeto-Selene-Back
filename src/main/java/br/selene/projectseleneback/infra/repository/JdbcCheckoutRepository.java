@@ -113,11 +113,9 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
     @Override
     public Checkout deleteCheckoutById(String checkoutId) {
-        String sql = "UPDATE tb_checkout_order" +
-                "\tSET status="+ CheckoutStatusEnum.EXPIRED +
-                "\tWHERE id = ?";
+        String sql = "UPDATE tb_checkout_order SET status= ? WHERE id = ?";
 
-       int rows = jdbc.update(sql, checkoutId);
+       int rows = jdbc.update(sql,CheckoutStatusEnum.EXPIRED.name(), checkoutId);
 
        if (rows > 0) {
            this.updateCheckoutPaymentStatus(checkoutId, PaymentCheckoutStatusEnum.CANCELED);
@@ -128,11 +126,9 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
     @Override
     public Checkout deleteCheckoutByOrderId(long orderId) {
-        String sql = "UPDATE tb_checkout_order" +
-                "\tSET status="+ CheckoutStatusEnum.EXPIRED +
-                "\tWHERE id_order = ?";
+        String sql = "UPDATE tb_checkout_order SET status=? WHERE id_order = ?";
 
-        int rows = jdbc.update(sql, orderId);
+        int rows = jdbc.update(sql,CheckoutStatusEnum.EXPIRED.name(), orderId);
 
         if (rows > 0) {
             this.updateCheckoutPaymentStatusByOrderId(orderId, PaymentCheckoutStatusEnum.CANCELED);
@@ -143,7 +139,7 @@ public class JdbcCheckoutRepository implements ICheckoutRepository {
 
     @Override
     public Checkout updateCheckoutPaymentStatusByOrderId(long orderId, PaymentCheckoutStatusEnum checkoutStatus) {
-        String sql = "UPDATE tb_checkout_order SET payment_status= ? WHERE id_order = ?";
+        String sql = "UPDATE tb_checkout_order SET payment_status= ? " + "WHERE id_order = ?";
 
         int rows = jdbc.update(sql, checkoutStatus.name(), orderId);
 

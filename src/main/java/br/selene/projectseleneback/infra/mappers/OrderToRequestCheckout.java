@@ -14,12 +14,13 @@ public class OrderToRequestCheckout {
 
     public static RequestCheckoutDTO from(Order order, Customer customer, String redirect_url, List<String> notification_urls, List<String> payment_notification_urls) {
 
-        // TODO fazer conversão de uma melhor forma
         var phone = customer.getPhone();
-        var splitPhone = new String[]{"+55", "16", "996322205"};
+        var splitPhone = new String[3];
+        splitPhone[0] = "+55";
+        splitPhone[1] = phone.substring(0, 2);
+        splitPhone[2] = phone.substring(2);
 
         var items = order.getItems();
-
 
         var customerDto =  new CustomerCheckoutDTO(customer.getName(), customer.getEmail(), customer.getDocument(), new PhoneCustomerCheckoutDTO(splitPhone[0], splitPhone[1], splitPhone[2]));
 
@@ -39,7 +40,7 @@ public class OrderToRequestCheckout {
 
         return new RequestCheckoutDTO(
                 order.getId().toString(),
-                DateHelper.formatToIso8601(LocalDateTime.now().plusMinutes(3)),
+                DateHelper.formatToIso8601(LocalDateTime.now().plusMinutes(1)),
                 customerDto,
                 itemOrders,
                 paymentMethodOrders,

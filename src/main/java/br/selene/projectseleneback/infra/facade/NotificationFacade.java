@@ -28,7 +28,7 @@ public class NotificationFacade {
 
     public void updateCheckoutStatus(String checkoutId, Long orderId) {
         checkoutService.deleteCheckout(checkoutId);
-        orderService.updateOrderStatus(orderId, OrderStatusEnum.EXPIRED);
+        orderService.deleteOrder(orderId);
     }
 
     private OrderStatusEnum mapToOrderStatus(PaymentCheckoutStatusEnum paymentStatus) {
