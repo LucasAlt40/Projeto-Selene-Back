@@ -10,6 +10,8 @@ import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Service
 public class S3StorageService implements IStorageService{
@@ -24,10 +26,13 @@ public class S3StorageService implements IStorageService{
 
     @Override
     public void upload(String key, InputStream data, String contentType) throws IOException {
+
+        String fullKey = "public/" + key;
+
         s3Client.putObject(
                 PutObjectRequest.builder()
                         .bucket(bucket)
-                        .key(key)
+                        .key(fullKey)
                         .contentType(contentType)
                         .build(),
                 RequestBody.fromInputStream(data, data.available())
@@ -49,6 +54,22 @@ public class S3StorageService implements IStorageService{
                 .bucket(bucket)
                 .key(key)
                 .build());
+    }
+
+    @Override
+    public String getName(String key) {
+        // Gera o timestamp no padrão BR
+        String timestamp = new SimpleDateFormat("ssmmHH_ddMMyyyy").format(new Date());
+
+        // Extrai nome base e extensão
+        String extension = "";
+        int dotIndex = key.lastIndexOf('.');
+        if (dotIndex != -1) {
+            extension = key.substring(dotIndex); // inclui o ponto
+        }
+
+        // Retorna apenas o timestamp + extensão
+        return timestamp + extension;
     }
 
 }

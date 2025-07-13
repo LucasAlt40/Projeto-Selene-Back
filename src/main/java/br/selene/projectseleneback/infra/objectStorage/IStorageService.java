@@ -6,5 +6,6 @@ import java.io.InputStream;
 public interface IStorageService {
     void upload(String key, InputStream data, String contentType) throws IOException;
     byte[] download(String key);
+    String getName(String key);
     void delete(String key);
 }
