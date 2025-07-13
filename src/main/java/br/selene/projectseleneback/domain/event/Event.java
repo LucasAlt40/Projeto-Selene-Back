@@ -1,9 +1,6 @@
 package br.selene.projectseleneback.domain.event;
 
 import java.time.LocalDateTime;
-import java.util.List;
-
-import br.selene.projectseleneback.domain.ticketCategory.TicketCategory;
 
 public class Event {
 
@@ -13,14 +10,13 @@ public class Event {
 	private LocalDateTime date;
 	private Address address;
 	private EventStatusEnum status;
-	private List<TicketCategory> tickets;
 	private LocalDateTime createdAt;
 
 	public Event() {
 	}
 
 	public Event(Long id, String title, String description, LocalDateTime date, Address address, EventStatusEnum status,
-			List<TicketCategory> tickets, LocalDateTime createdAt) {
+			LocalDateTime createdAt) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -28,7 +24,7 @@ public class Event {
 		this.date = date;
 		this.address = address;
 		this.status = status;
-		this.tickets = tickets;
+
 		this.createdAt = createdAt;
 	}
 
@@ -78,14 +74,6 @@ public class Event {
 
 	public void setStatus(EventStatusEnum status) {
 		this.status = status;
-	}
-
-	public List<TicketCategory> getTickets() {
-		return tickets;
-	}
-
-	public void setTickets(List<TicketCategory> tickets) {
-		this.tickets = tickets;
 	}
 
 	public LocalDateTime getCreatedAt() {

@@ -15,12 +15,9 @@ public class MappingEndpoint {
 	public class Event {
 
 		public static final String MAIN = "/event";
-
-	}
-
-	public class TicketCategory {
-
-		public static final String MAIN = "/ticket-category";
+		public static final String TICKET_CATEGORY = "/ticket-category";
+		public static final String TICKET_CATEGORY_FIND = TICKET_CATEGORY + FIND;
+		public static final String TICKET_CATEGORY_ADD = TICKET_CATEGORY + CREATE;
 
 	}
 

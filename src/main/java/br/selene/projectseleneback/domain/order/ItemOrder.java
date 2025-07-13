@@ -1,7 +1,5 @@
 package br.selene.projectseleneback.domain.order;
 
-import java.time.LocalDateTime;
-
 public class ItemOrder {
 
 	private Long orderId;

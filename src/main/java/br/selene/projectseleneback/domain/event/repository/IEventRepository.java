@@ -1,11 +1,28 @@
 package br.selene.projectseleneback.domain.event.repository;
 
+import java.util.Collection;
+
+import org.springframework.data.domain.Page;
+
 import br.selene.projectseleneback.domain.event.Event;
+import br.selene.projectseleneback.domain.event.TicketCategory;
 
 public interface IEventRepository {
 
-	public Iterable<Event> findAll();
-	
-	public Event findById(int eventId);
-	
+	Page<Event> findAll();
+
+	Event findById(int eventId);
+
+	TicketCategory addTicketCategory(TicketCategory ticketCategory);
+
+	TicketCategory updateTicketCategory(TicketCategory ticketCategory);
+
+	Collection<TicketCategory> findTicketCategoriesFromEvent(Long eventId);
+
+	TicketCategory findTicketCategoryById(Long ticketCategoryId);
+
+	Boolean reserveTicket(Long ticketCategoryId, int quantity);
+
+	Boolean releaseTicket(Long ticketCategoryId, int quantity);
+
 }

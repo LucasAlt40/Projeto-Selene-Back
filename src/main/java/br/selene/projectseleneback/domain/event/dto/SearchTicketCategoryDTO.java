@@ -1,4 +1,4 @@
-package br.selene.projectseleneback.domain.ticketCategory.dto;
+package br.selene.projectseleneback.domain.event.dto;
 
 import jakarta.validation.constraints.Min;
 
